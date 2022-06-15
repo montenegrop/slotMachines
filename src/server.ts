@@ -1,8 +1,16 @@
-import "dotenv/config";
-import app from "./app.js";
+import 'dotenv/config'
+import app from './app'
 
-const PORT = process.env.PORT;
+import rollRouter from './routes/rolls'
 
-app.listen(PORT).on("error", (error) => {
-  console.log("el error es: ", error);
-});
+const PORT = process.env.PORT ?? '3000'
+
+app
+  .listen(PORT, () => {
+    console.log('servidor escuchando en el puerto ' + PORT)
+  })
+  .on('error', (error) => {
+    console.log('el error es: ', error)
+  })
+
+app.use('/api/roll', rollRouter)

@@ -1,13 +1,8 @@
-"use strict";
-// import { Router } from "express";
-// const getRoutes: Router = Router();
-// // /**
-// //  * Simple responser
-// //  * @param {Request} req
-// //  * @param {Response} res
-// //  */
-// async function baseResponser(req, res) {
-//   res.status(200).json({ message: "ok" });
-// }
-// routes.get("/", baseResponser);
-// export default routes;
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+const express_1 = require('express')
+const rollRouter = (0, express_1.Router)()
+rollRouter.get('/victorious', (_, res) => {
+  res.status(200).json({ message: 'ok' })
+})
+exports.default = rollRouter

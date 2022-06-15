@@ -1,16 +1,17 @@
 // 3rd Party Modules
-import express from "express";
+import express from 'express'
 
 // Local Modules
 // const myRoute = require("./routes/myRoute.js");
+import rollRouter from './routes/rolls'
 
 // Server Initialization
-const app = express();
+const app = express()
 
 // Middlewares
-app.use(express.json());
+app.use(express.json())
 
 // Routes will be written here
-// app.use("/route", myRoute);
+app.use('/roll', rollRouter)
 
-export default app;
+export default app
