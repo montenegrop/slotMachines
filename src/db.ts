@@ -3,7 +3,6 @@ import { DataSource } from 'typeorm'
 // import { AuthUserGroups } from './entities/AuthUserGroups'
 // import { AuthUserUserPermissions } from './entities/AuthUserUserPermissions'
 // import { DjangoAdminLog } from './entities/DjangoAdminLog'
-import { MachineMachine } from './entities/MachineMachine'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -14,7 +13,7 @@ export const AppDataSource = new DataSource({
   database: 'slots',
   synchronize: false,
   logging: true,
-  entities: [MachineMachine]
+  entities: []
 //   subscribers: [],
 //   migrations: []
 })
