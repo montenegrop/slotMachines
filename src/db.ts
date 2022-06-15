@@ -11,7 +11,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: 'pablodevuser',
   password: '9282jjssssds',
-  database: 'casinodev',
+  database: 'slots',
   synchronize: false,
   logging: true,
   entities: [MachineMachine]
