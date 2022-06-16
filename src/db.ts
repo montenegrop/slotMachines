@@ -1,8 +1,7 @@
 import { DataSource } from 'typeorm'
-// import { AuthUser } from './entities/AuthUser'
-// import { AuthUserGroups } from './entities/AuthUserGroups'
-// import { AuthUserUserPermissions } from './entities/AuthUserUserPermissions'
-// import { DjangoAdminLog } from './entities/DjangoAdminLog'
+import { User } from './entity/User'
+import { Person } from './server'
+// import { Person } from './server'
 
 export const AppDataSource = new DataSource({
   type: 'postgres',
@@ -11,9 +10,9 @@ export const AppDataSource = new DataSource({
   username: 'pablodevuser',
   password: '9282jjssssds',
   database: 'slots',
-  synchronize: false,
+  synchronize: true,
   logging: true,
-  entities: []
+  entities: [User, Person]
 //   subscribers: [],
 //   migrations: []
 })

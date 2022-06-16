@@ -4,7 +4,7 @@ import express from 'express'
 // Local Modules
 // const myRoute = require("./routes/myRoute.js");
 import adminRouter from './routes/admin'
-import rollRouter from './routes/rolls'
+import rollRouter from './routes/roll'
 import { AppDataSource } from './db'
 import 'reflect-metadata'
 
