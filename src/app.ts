@@ -3,9 +3,8 @@ import express from 'express'
 
 // Local Modules
 // const myRoute = require("./routes/myRoute.js");
-import rollRouter from './routes/rolls'
-import machineRouter from './routes/machines'
-import userRouter from './routes/users'
+import adminRouter from './routes/admin'
+import rollRouter from './routes/roll'
 import { AppDataSource } from './db'
 import 'reflect-metadata'
 
@@ -23,8 +22,7 @@ AppDataSource.initialize()
 app.use(express.json())
 
 // Routes will be written here
+app.use('/admin', adminRouter)
 app.use('/roll', rollRouter)
-app.use('/machines', machineRouter)
-app.use('/users', userRouter)
 
 export default app
