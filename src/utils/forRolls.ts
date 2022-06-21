@@ -62,6 +62,7 @@ export function winnings (
   const lineWins: LineWin[] = []
   const keys = Object.keys(chains)
   let totalWin = 0
+  let freeSpins = 0
   keys.forEach(key => {
     const chain = chains[key]
     const wild = []
@@ -71,6 +72,10 @@ export function winnings (
     }
     if (key.length === 5) {
       wild.push([1, 3])
+    }
+
+    if (key[0] === freeSpin) {
+      freeSpins += freeSpinList[chains[key].length - 1]
     }
 
     if (win > 0) {
@@ -85,10 +90,6 @@ export function winnings (
       )
     }
   })
-  let freeSpins = 0
-  if (freeSpin in keys) {
-    freeSpins = freeSpinList[chains[freeSpin].length - 1]
-  }
 
   return {
     total_win: totalWin,
