@@ -1,5 +1,5 @@
 import { RollResult } from '../../types'
-import rollData from './victoriousData.example.json'
+import rollData from './rollVictorious.data.example.json'
 
 const roll: RollResult = rollData as RollResult
 
