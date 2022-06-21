@@ -12,7 +12,7 @@ export interface RollResult {
 }
 
 export interface Payments {
-  [key: string]: {[key: string]: number}
+  [key: string]: {[key: number]: number}
 }
 
 export interface Chains {

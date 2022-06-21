@@ -15,7 +15,6 @@ export function roll (lengths: number[], _totalReels = 5): number[] {
 }
 
 export function visibles (reelsR: string[], roll: number[], visible = 3): string[] {
-  console.log('roll', roll)
   return reelsR.map((r) => r.slice(roll[reelsR.indexOf(r)], roll[reelsR.indexOf(r)] + visible))
 }
 
@@ -23,11 +22,10 @@ export function winningChains (screen: string[], totalReels = 5, wild = 'W'): Ch
   const chains: Chains = {}
   const v0 = screen[0]
   let potential = new Set(v0)
-  for (const symbol in potential) {
+  for (const symbol of potential) {
     chains[symbol] = [v0.indexOf(symbol)]
   }
   let reelIndex = 1
-  console.log('initchains', chains)
   while (potential.size !== 0 && reelIndex < totalReels) {
     const reel = screen[reelIndex]
     let symbolPotential = new Set()
@@ -46,13 +44,12 @@ export function winningChains (screen: string[], totalReels = 5, wild = 'W'): Ch
       if (reel.includes(wild)) {
         chains[key + wild + String(reelIndex)] = chains[key].concat([reel.indexOf(wild)])
       }
-      if (symbol in symbolPotential) {
+      if (symbolPotential.has(symbol)) {
         chains[key].push(reel.indexOf(symbol))
       }
     })
     reelIndex += 1
   }
-  console.log('endchains', chains)
   return chains
 }
 
@@ -65,17 +62,15 @@ export function winnings (
   const lineWins: LineWin[] = []
   const keys = Object.keys(chains)
   let totalWin = 0
-  console.log('init', lineWins)
   keys.forEach(key => {
     const chain = chains[key]
     const wild = []
-    const win = payments[key[0]][String(chain.length)]
-    // # si hay multiplicador del len(key)
+    const win = payments[key[0]][chain.length]
     if (key.length === 3) {
       wild.push(parseInt(key[2]))
     }
     if (key.length === 5) {
-      wild.push(parseInt(key[4]))
+      wild.push([1, 3])
     }
 
     if (win > 0) {
@@ -90,7 +85,6 @@ export function winnings (
       )
     }
   })
-  console.log('end', lineWins)
   let freeSpins = 0
   if (freeSpin in keys) {
     freeSpins = freeSpinList[chains[freeSpin].length - 1]
