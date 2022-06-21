@@ -6,7 +6,7 @@
     "port": 5432,
     "username": "pablodevuser",
     "password": "9282jjssssds",
-    "database": "",
+    "database": "slots",
     "synchronize": false,
     "entities": ["entities/*.ts"]
   }
