@@ -10,8 +10,7 @@
 		"scope": "javascript,typescript",
 		"prefix": "log",
 		"body": [
-			"console.log('$1');",
-			"$2"
+			"console.log($0)"
 		],
 		"description": "Log output to console"
 	},

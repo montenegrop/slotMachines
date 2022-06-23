@@ -1,7 +1,6 @@
 export interface LineWin {
   symbol: string
   chain: Array<0|1|2>
-  wild: any
   win: number
 }
 

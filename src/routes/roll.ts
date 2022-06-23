@@ -15,11 +15,10 @@ router.get('/victorious', (req, res) => {
   const userData = JSON.parse(file)
   if (userData.free_spins !== 0) {
     const resultFreeSpin = freeSpinsWinnings()
-    userData.free_spins -= 1
-
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    userData.free_spins += resultFreeSpin.free_spins - 1
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance += resultFreeSpin.total_win * 1.0 / 25
-    userData.line_wins = resultFreeSpin.line_wins
     userData.screen = resultFreeSpin.screen
     console.log('fs')
     console.log('data', userData)
@@ -30,10 +29,11 @@ router.get('/victorious', (req, res) => {
     const resultNormal = normalWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance += resultNormal.total_win * 1.0 / 25 - parseInt(req.query.bet as string)
-    userData.free_spins = resultNormal.free_spins
-    userData.line_wins = resultNormal.line_wins
+    // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+    userData.free_spins += resultNormal.free_spins
     userData.screen = resultNormal.screen
     console.log('data', userData)
+    console.log('res', resultNormal)
     fs.writeFileSync(path.join(__dirname, '../players/player1.json'), JSON.stringify(userData))
     res.status(200).json(resultNormal)
   }
