@@ -57,19 +57,12 @@ void (async () => {
         resource: Machine,
         options: {
           parent: { name: 'maquinas' },
-          actions: {
-            new: {
-              label: 'create new user Pablo',
-              before: async (request: any) => {
-                console.log(request.payload, 'payload')
-                request.payload = {
-                  ...request.payload,
-                  reels: [request.payload['reels.0'], request.payload['reels.1']]
-                }
-                // request.payload = { name: 'da', reels: ['d', 'a'] }
-                console.log(request.payload)
-                return request
-              }
+          properties: {
+            Payments: {
+              type: 'mixed'
+            },
+            'Payments.A': {
+              type: 'string[]'
             }
           }
         }
