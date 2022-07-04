@@ -10,7 +10,6 @@ import express from 'express'
 
 import rollRouter from './routes/roll'
 
-// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
 const PORT = process.env.PORT ?? 3000
 
 void (async () => {
