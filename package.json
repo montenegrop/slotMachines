@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "node ./dist/server.js",
+    "my-custom-start": "node ./dist/server.js",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "ts-node-dev src/server.ts",
