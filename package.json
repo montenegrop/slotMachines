@@ -2,8 +2,12 @@
   "name": "slotmachines",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "./dist/server.js",
+  "engines": {
+    "node": "17.x"
+  },
   "scripts": {
+    "start": "node ./dist/server.js",
     "build": "tsc",
     "watch": "tsc -w",
     "dev": "ts-node-dev src/server.ts",

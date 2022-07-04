@@ -10,6 +10,9 @@ import express from 'express'
 
 import rollRouter from './routes/roll'
 
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+const PORT = process.env.PORT ?? 3000
+
 void (async () => {
   // db:
   await AppDataSource.initialize()
@@ -28,5 +31,5 @@ void (async () => {
   app.use('/api', rollRouter)
 
   // servers:
-  app.listen(3000)
+  app.listen(PORT)
 })()
