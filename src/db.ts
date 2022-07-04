@@ -1,5 +1,6 @@
 import { DataSource } from 'typeorm'
 import { Machine } from './entity/Machine'
+import { Player } from './entity/Player'
 import { User } from './entity/User'
 // import { Person } from './server'
 
@@ -10,7 +11,7 @@ export const AppDataSource = new DataSource({
   url: databaseConfig.url,
   synchronize: true,
   logging: true,
-  entities: [User, Machine],
+  entities: [User, Machine, Player],
   extra: { ssl: true, rejectUnauthorized: false }
 //   subscribers: [],
 //   migrations: []

@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt'
 import { Machine } from '../entity/Machine'
+import { Player } from '../entity/Player'
 import { User } from '../entity/User'
 export const adminConfig = {
   // databases: [MyDataSource],
@@ -49,6 +50,12 @@ export const adminConfig = {
             type: 'string[]'
           }
         }
+      }
+    },
+    {
+      resource: Player,
+      options: {
+        parent: { name: 'players' }
       }
     }
   ]
