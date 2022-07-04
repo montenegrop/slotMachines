@@ -32,7 +32,7 @@ router.get('/victorious', (req, res) => {
       path.join(__dirname, '../players/player1fs.json'),
       JSON.stringify(userData)
     )
-    res.status(200).json(resultFreeSpin)
+    res.status(200).json({ spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins })
   } else {
     const resultNormal = normalWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -47,7 +47,7 @@ router.get('/victorious', (req, res) => {
       path.join(__dirname, '../players/player1.json'),
       JSON.stringify(userData)
     )
-    res.status(200).json({ resultNormal, balance: userData.balance, free_spins: userData.free_spins })
+    res.status(200).json({ spin_results: resultNormal, balance: userData.balance, free_spins_left: userData.free_spins })
   }
 })
 
