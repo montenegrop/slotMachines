@@ -8,7 +8,7 @@ import { databaseConfig } from './settings'
 export const AppDataSource = new DataSource({
   type: databaseConfig.type,
   url: databaseConfig.url,
-  synchronize: false,
+  synchronize: true,
   logging: true,
   entities: [User, Machine],
   extra: { ssl: true, rejectUnauthorized: false }
