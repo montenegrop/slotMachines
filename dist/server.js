@@ -11,6 +11,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 const db_1 = require("./db");
 const class_validator_1 = require("class-validator");
@@ -20,6 +21,8 @@ const express_1 = __importDefault(require("@adminjs/express"));
 const adminConfig_1 = require("./admin/adminConfig");
 const express_2 = __importDefault(require("express"));
 const roll_1 = __importDefault(require("./routes/roll"));
+// eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
+const PORT = (_a = process.env.PORT) !== null && _a !== void 0 ? _a : 3000;
 void (() => __awaiter(void 0, void 0, void 0, function* () {
     // db:
     yield db_1.AppDataSource.initialize();
@@ -34,5 +37,5 @@ void (() => __awaiter(void 0, void 0, void 0, function* () {
     app.use('/admin', adminRouter);
     app.use('/api', roll_1.default);
     // servers:
-    app.listen(3000);
+    app.listen(PORT);
 }))();
