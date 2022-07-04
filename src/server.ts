@@ -10,6 +10,8 @@ import express from 'express'
 
 import rollRouter from './routes/roll'
 
+import 'dotenv/config'
+
 const PORT = process.env.PORT ?? 3000
 
 void (async () => {

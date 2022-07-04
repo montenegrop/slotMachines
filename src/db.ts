@@ -5,6 +5,9 @@ import { User } from './entity/User'
 // import { Person } from './server'
 
 import { databaseConfig } from './settings'
+import 'dotenv/config'
+
+console.log(process.env.NODE_ENV)
 
 export const AppDataSource = new DataSource({
   type: databaseConfig.type,
@@ -12,7 +15,7 @@ export const AppDataSource = new DataSource({
   synchronize: true,
   logging: true,
   entities: [User, Machine, Player],
-  extra: { ssl: true, rejectUnauthorized: false }
+  extra: { ssl: process.env.NODE_ENV !== 'development', rejectUnauthorized: false }
 //   subscribers: [],
 //   migrations: []
 })
