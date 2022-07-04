@@ -47,7 +47,7 @@ router.get('/victorious', (req, res) => {
       path.join(__dirname, '../players/player1.json'),
       JSON.stringify(userData)
     )
-    res.status(200).json(resultNormal)
+    res.status(200).json({ resultNormal, balance: userData.balance, free_spins: userData.free_spins })
   }
 })
 
