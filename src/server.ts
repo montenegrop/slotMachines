@@ -1,30 +1,32 @@
 import { AppDataSource } from './db'
-import express from 'express'
-import { Database, Resource } from '@adminjs/typeorm'
-import { validate } from 'class-validator'
 
+import { validate } from 'class-validator'
+import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
+import { adminConfig } from './admin/adminConfig'
+
+import express from 'express'
 
 import rollRouter from './routes/roll'
-import { User } from './entity/User'
 
 void (async () => {
+  // db:
   await AppDataSource.initialize()
+
+  // admin router:
   Resource.validate = validate
   AdminJS.registerAdapter({ Database, Resource })
+  const adminJs = new AdminJS(adminConfig)
+  const adminRouter = AdminJSExpress.buildRouter(adminJs)
 
-  const adminJs = new AdminJS({
-    // databases: [MyDataSource],
-    resources: [
-      { resource: User, options: { parent: { name: 'foobar' } } }
-    ],
-    rootPath: '/admin'
-  })
-
+  // express:
   const app = express()
-  const router = AdminJSExpress.buildRouter(adminJs)
-  app.use('/admin', router)
+
+  // routers:
+  app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
+
+  // servers:
   app.listen(3000)
 })()
