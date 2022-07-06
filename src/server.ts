@@ -1,5 +1,5 @@
+import 'dotenv/config'
 import { AppDataSource } from './db'
-
 import { validate } from 'class-validator'
 import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
@@ -10,9 +10,7 @@ import express from 'express'
 
 import rollRouter from './routes/roll'
 
-import 'dotenv/config'
-
-const PORT = process.env.PORT ?? 3000
+import { PORT } from './settings'
 
 void (async () => {
   // db:

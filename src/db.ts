@@ -7,8 +7,6 @@ import { User } from './entity/User'
 import { databaseConfig } from './settings'
 import 'dotenv/config'
 
-console.log(process.env.NODE_ENV)
-
 export const AppDataSource = new DataSource({
   type: databaseConfig.type,
   url: databaseConfig.url,
