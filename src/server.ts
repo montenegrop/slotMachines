@@ -9,6 +9,7 @@ import { adminConfig } from './admin/adminConfig'
 import express from 'express'
 
 import rollRouter from './routes/roll'
+import publisherRouter from './routes/publisher'
 
 import { PORT } from './settings'
 
@@ -28,6 +29,7 @@ void (async () => {
   // routers:
   app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
+  app.use('/publisher', publisherRouter)
 
   // servers:
   app.listen(PORT)
