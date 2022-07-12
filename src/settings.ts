@@ -11,3 +11,10 @@ export const databaseConfig: DatabaseConfig = {
 
 // servers:
 export const PORT = process.env.PORT ?? 3000
+
+// publishers:
+export const publisher1 = {
+  pn: 'pn',
+  login: 'login',
+  password: 'pass'
+}

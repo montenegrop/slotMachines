@@ -16,7 +16,18 @@ router
     // console.log('header: ', req.rawHeaders)
     // res.type('application/xml')
     console.log('body', req.body)
-    res.set({ 'content-type': 'application/xml; charset=utf-8' }).send(req.body)
+    const response = `
+      <PKT>
+      <Result Name="GetAccountDetails" Success="1">
+      <Returnset>
+      <Token Type="string" Value="AASASJJ2982NDD" />
+      <LoginName Type="string" Value="user112" />
+      <Balance Type="long" Value="9992" />
+      </Returnset>
+      </Result>
+      </PKT>
+    `
+    res.set({ 'content-type': 'application/xml; charset=utf-8' }).send(response)
   })
 
 export default router
