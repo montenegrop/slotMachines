@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/return-await */
 import fetch from 'node-fetch'
 import { accountDetailsXML, accountBalanceXML } from './xmls'
 
@@ -31,10 +32,11 @@ export class Casino1 implements IProvider {
       method: 'post',
       body: accountDetailsXML(token, publisher),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(async res => await res.text()).then(res => {
-      console.log('res', res)
-      return res
-    })
+    }).then(async res => await res.text())
+      .then(res => {
+        console.log('res', res)
+        return res
+      })
 
     return response
   }

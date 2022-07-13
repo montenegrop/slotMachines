@@ -10,6 +10,7 @@ router
   .get('/', async (_req, res) => {
     // console.log('header: ', req.rawHeaders)
     const r = await casino1.getAccountDetails('token')
+    console.log('pres', r)
     res.status(200).end(r)
   })
   .post('/', bodyParser.text({ type: 'application/xml' }), (req, res) => {
