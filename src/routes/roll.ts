@@ -3,13 +3,15 @@ import { getRollResult } from './services/rollVictorious.example'
 import { normalWinnings, freeSpinsWinnings } from './services/victorious'
 import fs from 'fs'
 import path from 'path'
+import { Casino1 } from '../adapters/interface'
 
 const router = Router()
 
 router.get('/example/victorious', (_req, res) => {
   res.status(200).json(getRollResult())
 })
-router.get('/victorious', (req, res) => {
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+router.get('/victorious', async (req, res) => {
   const file = fs.readFileSync(
     path.join(__dirname, '../players/player1.json'),
     'utf-8'
@@ -22,8 +24,6 @@ router.get('/victorious', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance += (resultFreeSpin.total_win * 1.0) / 25
     userData.screen = resultFreeSpin.screen
-    console.log('fs')
-    console.log('data', userData)
     fs.writeFileSync(
       path.join(__dirname, '../players/player1.json'),
       JSON.stringify(userData)
@@ -41,8 +41,10 @@ router.get('/victorious', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
     userData.screen = resultNormal.screen
-    console.log('data', userData)
-    console.log('res', resultNormal)
+
+    const casino1 = new Casino1('pn', 'login', 'pass')
+    void casino1.getAccountDetails('token')
+
     fs.writeFileSync(
       path.join(__dirname, '../players/player1.json'),
       JSON.stringify(userData)

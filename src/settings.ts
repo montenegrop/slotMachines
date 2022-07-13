@@ -1,20 +1,20 @@
 // database:
-
-// interface DatabaseConfig {
-//   type: 'postgres'
-//   host: string
-//   port: number
-//   username: string
-//   password: string
-//   database: string
-// }
-
-// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-// const connectionString = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`
-
+interface DatabaseConfig {
+  type: 'postgres'
+  url: string
+}
 const dbString = 'postgres://pablodevuser:9282jjssssds@localhost:5432/slots'
-
-export const databaseConfig: any = {
+export const databaseConfig: DatabaseConfig = {
   type: 'postgres',
   url: process.env.DATABASE_URL ?? dbString
+}
+
+// servers:
+export const PORT = process.env.PORT ?? 3000
+
+// publishers:
+export const publisher1 = {
+  pn: 'pn',
+  login: 'login',
+  password: 'pass'
 }

@@ -1,5 +1,5 @@
+import 'dotenv/config'
 import { AppDataSource } from './db'
-
 import { validate } from 'class-validator'
 import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
@@ -11,10 +11,10 @@ import express from 'express'
 import cors from 'cors'
 
 import rollRouter from './routes/roll'
+import publisherRouter from './routes/publisher'
+import userRouter from './routes/user'
 
-import 'dotenv/config'
-
-const PORT = process.env.PORT ?? 3000
+import { PORT } from './settings'
 
 void (async () => {
   // db:
@@ -35,6 +35,8 @@ void (async () => {
   // routers:
   app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
+  app.use('/publisher', publisherRouter)
+  app.use('/user', userRouter)
 
   // servers:
   app.listen(PORT)
