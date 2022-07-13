@@ -8,6 +8,8 @@ import { adminConfig } from './admin/adminConfig'
 
 import express from 'express'
 
+import cors from 'cors'
+
 import rollRouter from './routes/roll'
 import publisherRouter from './routes/publisher'
 import userRouter from './routes/user'
@@ -26,6 +28,9 @@ void (async () => {
 
   // express:
   const app = express()
+
+  // global middlewares:
+  app.use(cors())
 
   // routers:
   app.use('/admin', adminRouter)
