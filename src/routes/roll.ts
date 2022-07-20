@@ -14,7 +14,7 @@ if (!fs.existsSync(dir)) {
 
 fs.writeFileSync(
   path.join(__dirname, '../players/player2.json'),
-  JSON.stringify({ id: 2, balance: 0, free_spins: 0, screen: ['EFS', 'DEJ', 'GDB', 'FCJ', 'SCJ'] })
+  JSON.stringify({ id: 2, balance: 1000, free_spins: 0, screen: ['EFS', 'DEJ', 'GDB', 'FCJ', 'SCJ'] })
 )
 
 router.get('/example/victorious', (_req, res) => {
