@@ -7,6 +7,12 @@ import { Casino1 } from '../adapters/interface'
 
 const router = Router()
 
+const dir = path.join(__dirname, '../players')
+
+if (!fs.existsSync(dir)) {
+  fs.mkdirSync(dir)
+}
+
 fs.writeFileSync(
   path.join(__dirname, '../players/player2.json'),
   JSON.stringify({ id: 2, balance: 0, free_spins: 0, screen: ['EFS', 'DEJ', 'GDB', 'FCJ', 'SCJ'] })
