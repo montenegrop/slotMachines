@@ -45,7 +45,7 @@ router.get('/victorious', async (req, res) => {
     res.status(200).json({ spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins })
   } else {
     let arr: number[] = []
-    if (req.query.arr?.length !== 0) {
+    if (req.query.arr?.length !== undefined) {
       arr = (req.query.arr as string).split(',').map(function (item) {
         return parseInt(item, 10)
       })
