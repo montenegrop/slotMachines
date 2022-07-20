@@ -24,33 +24,28 @@ export class Casino1 implements IProvider {
     this.password = password
   }
 
-  async getAccountDetails (token: string,
+  async getAccountDetails (
+    token: string,
     publisher: Publisher = { login: this.login, password: this.password }
   ): Promise<string> {
-    console.log('init')
     const response: any = await fetch('http://localhost:3000/publisher', {
       method: 'post',
       body: accountDetailsXML(token, publisher),
       headers: { 'Content-Type': 'application/xml' }
     }).then(async res => await res.text())
-      .then(res => {
-        console.log('res', res)
-        return res
-      })
 
     return response
   }
 
-  async getAccountBalance (token: string,
+  async getAccountBalance (
+    token: string,
     publisher: Publisher = { login: this.login, password: this.password }
   ): Promise<string> {
-    console.log('init')
     const response: any = await fetch('http://localhost:3000/publisher', {
       method: 'post',
       body: accountBalanceXML(token, publisher),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(async res => await res.json())
-      .then(json => console.log('json', json))
+    }).then(async res => await res.text())
 
     return response
   }

@@ -13,7 +13,7 @@ router.get('/example/victorious', (_req, res) => {
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/victorious', async (req, res) => {
   const file = fs.readFileSync(
-    path.join(__dirname, '../players/player1.json'),
+    path.join(__dirname, '../../player1.json'),
     'utf-8'
   )
   const userData = JSON.parse(file)
@@ -25,11 +25,11 @@ router.get('/victorious', async (req, res) => {
     userData.balance += (resultFreeSpin.total_win * 1.0) / 25
     userData.screen = resultFreeSpin.screen
     fs.writeFileSync(
-      path.join(__dirname, '../players/player1.json'),
+      path.join(__dirname, '../../player1.json'),
       JSON.stringify(userData)
     )
     fs.writeFileSync(
-      path.join(__dirname, '../players/player1fs.json'),
+      path.join(__dirname, '../../player1.json'),
       JSON.stringify(userData)
     )
     res.status(200).json({ spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins })
@@ -46,7 +46,7 @@ router.get('/victorious', async (req, res) => {
     void casino1.getAccountDetails('token')
 
     fs.writeFileSync(
-      path.join(__dirname, '../players/player1.json'),
+      path.join(__dirname, '../../player1.json'),
       JSON.stringify(userData)
     )
     res.status(200).json({ spin_results: resultNormal, balance: userData.balance, free_spins_left: userData.free_spins })
