@@ -3,7 +3,6 @@ import { getRollResult } from './services/rollVictorious.example'
 import { normalWinnings, freeSpinsWinnings } from './services/victorious'
 import fs from 'fs'
 import path from 'path'
-import { Casino1 } from '../adapters/interface'
 
 const router = Router()
 
@@ -52,9 +51,6 @@ router.get('/victorious', async (req, res) => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
     userData.screen = resultNormal.screen
-
-    const casino1 = new Casino1('pn', 'login', 'pass')
-    void casino1.getAccountDetails('token')
 
     fs.writeFileSync(
       path.join(__dirname, '../players/player2.json'),
