@@ -28,7 +28,6 @@ router.get('/victorious', async (req, res) => {
   )
   const userData = JSON.parse(file)
   if (userData.free_spins !== 0) {
-    console.log(userData, 'fs')
     const resultFreeSpin = freeSpinsWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultFreeSpin.free_spins - 1
@@ -45,8 +44,13 @@ router.get('/victorious', async (req, res) => {
     )
     res.status(200).json({ spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins })
   } else {
-    console.log(userData)
-    const resultNormal = normalWinnings()
+    let arr: number[] = []
+    if (req.query.arr?.length !== 0) {
+      arr = (req.query.arr as string).split(',').map(function (item) {
+        return parseInt(item, 10)
+      })
+    }
+    const resultNormal = normalWinnings(arr)
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance +=
       (resultNormal.total_win * 1.0) / 25 - parseInt(req.query.bet as string)
