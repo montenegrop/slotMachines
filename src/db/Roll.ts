@@ -1,11 +1,22 @@
 import mongoose from 'mongoose'
 
 const rollSchema = new mongoose.Schema({
-  provider: mongoose.SchemaTypes.ObjectId,
-  game: mongoose.SchemaTypes.ObjectId,
-  user: String,
+  provider: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Provider'
+  },
+  game: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Game'
+  },
+  player: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Player'
+  },
   bet: Number,
   result: String,
+  wins: Number,
+  bonus: String,
   createdAt: {
     type: Date,
     immutable: true,

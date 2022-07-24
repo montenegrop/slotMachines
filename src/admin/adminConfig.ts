@@ -1,68 +1,30 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 // import bcrypt from 'bcrypt'
 import Game from '../db/Game'
-import Machine from '../db/Machine'
+import Player from '../db/Player'
 import Provider from '../db/Provider'
-import Roll from '../db/Roll'
-import User from '../db/User'
-import bcrypt from 'bcrypt'
+import { machineConfig } from './machineConfig'
+import { rollConfig } from './rollConfig'
+import { userConfig } from './userConfig'
+
+// const canSeeRecords = ({ currentAdmin, record }: any) => {
+//   console.log(record)
+//   console.log(currentAdmin)
+//   return currentAdmin && (
+//     currentAdmin.role === 'admin' ||
+//   currentAdmin.provider === record.params.provider
+//   )
+// }
+
 export const adminConfig = {
   // databases: [MyDataSource],
   resources: [
+    { resource: Player },
     { resource: Provider },
     { resource: Game },
-    { resource: Roll },
-    {
-      resource: User,
-      options: {
-        properties: {
-          encryptedPassword: {
-            isVisible: false
-          },
-          password: {
-            type: 'string',
-            isVisible: {
-              list: false, edit: true, filter: false, show: false
-            }
-          }
-        },
-        actions: {
-          new: {
-            label: 'create new user',
-            before: async (request: any) => {
-              console.log(request.payload, 'payload')
-              // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
-              if (request.payload.password) {
-                request.payload = {
-                  ...request.payload,
-                  encryptedPassword: await bcrypt.hash(request.payload.password, 10),
-                  password: undefined
-                }
-              }
-              return request
-            }
-          }
-        }
-      }
-    },
-    {
-      resource: Machine
-      // options: {
-      //   parent: { name: 'maquinas' },
-      //   properties: {
-      //     Payments: {
-      //       type: 'mixed'
-      //     },
-      //     'Payments.A': {
-      //       type: 'string[]'
-      //     }
-      //   }
-      // }
-    }
-    // {
-    //   resource: Player,
-    //   options: {
-    //     parent: { name: 'players' }
-    //   }
-    // }
+    { ...rollConfig },
+    { ...userConfig },
+    { ...machineConfig }
   ]
 }

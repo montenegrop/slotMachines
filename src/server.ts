@@ -33,23 +33,19 @@ void (async () => {
 
   // Build and use a router which will handle all AdminJS routes
   const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
-    cookieName: 'adminbro',
-    cookiePassword: 'somePassword',
     authenticate: async (email: string, password: string) => {
-      const user: any = await User.findOne({ where: { email: email } })
+      console.log(email, password)
+      const user: any = await User.findOne({ email: email })
       if (user !== null) {
-        const matched = await bcrypt.compare(password, user.encryptedPassword as string)
+        const matched = await bcrypt.compare(password, user.encryptedPassword)
         if (matched) {
+          console.log('usuario', user)
           return user
         }
       }
       return false
-    }
-  },
-  null,
-  {
-    resave: false,
-    saveUninitialized: true
+    },
+    cookiePassword: 'some-secret-password-used-to-secure-cookie'
   })
 
   // express:
