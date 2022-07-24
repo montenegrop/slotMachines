@@ -1,4 +1,9 @@
 // database:
+const user = 'slotuser'
+const password = 'slotpassword'
+const database = 'slots'
+export const MONGODB = `mongodb+srv://${user}:${password}@slotmachine.qmyrasv.mongodb.net/${database}?retryWrites=true&w=majority`
+
 interface DatabaseConfig {
   type: 'postgres'
   url: string

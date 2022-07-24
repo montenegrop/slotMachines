@@ -1,12 +1,10 @@
 import 'dotenv/config'
-import { AppDataSource } from './db'
-import { validate } from 'class-validator'
-import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
-import { adminConfig } from './admin/adminConfig'
+import adminJSMongoose from '@adminjs/mongoose'
 
 import express from 'express'
+import mongoose from 'mongoose'
 
 import cors from 'cors'
 
@@ -14,17 +12,41 @@ import rollRouter from './routes/roll'
 import publisherRouter from './routes/publisher'
 import userRouter from './routes/user'
 
-import { PORT } from './settings'
+import { MONGODB, PORT } from './settings'
+import { adminConfig } from './admin/adminConfig'
 
+import bcrypt from 'bcrypt'
+
+import User from './db/User'
 void (async () => {
   // db:
-  await AppDataSource.initialize()
+  mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
 
+  // admin
+  const adminJsOptions = {
+    ...adminConfig
+  }
   // admin router:
-  Resource.validate = validate
-  AdminJS.registerAdapter({ Database, Resource })
-  const adminJs = new AdminJS(adminConfig)
-  const adminRouter = AdminJSExpress.buildRouter(adminJs)
+  AdminJS.registerAdapter(adminJSMongoose)
+  const adminJs = new AdminJS(adminJsOptions)
+  // const adminRouter = AdminJSExpress.buildRouter(adminJs)
+
+  // Build and use a router which will handle all AdminJS routes
+  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
+    authenticate: async (email: string, password: string) => {
+      console.log(email, password)
+      const user: any = await User.findOne({ email: email })
+      if (user !== null) {
+        const matched = await bcrypt.compare(password, user.encryptedPassword)
+        if (matched) {
+          console.log('usuario', user)
+          return user
+        }
+      }
+      return false
+    },
+    cookiePassword: 'some-secret-password-used-to-secure-cookie'
+  })
 
   // express:
   const app = express()
@@ -33,7 +55,8 @@ void (async () => {
   app.use(cors())
 
   // routers:
-  app.use('/admin', adminRouter)
+  app.use('/admin', adminUsersRouter)
+  // app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
   app.use('/publisher', publisherRouter)
   app.use('/user', userRouter)
