@@ -1,9 +1,10 @@
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
-  email: String,
-  encryptedPassword: String,
-  provider: mongoose.SchemaTypes.ObjectId
+  provider: mongoose.SchemaTypes.ObjectId,
+  email: { type: String, required: true },
+  encryptedPassword: { type: String, required: true },
+  role: { type: String, enum: ['admin', 'restricted'], required: true, default: 'restricted' }
 
 })
 
