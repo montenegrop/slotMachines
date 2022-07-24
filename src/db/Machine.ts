@@ -5,4 +5,4 @@ const machineSchema = new mongoose.Schema({
   reels: Number
 })
 
-export default mongoose.model('machine', machineSchema)
+export default mongoose.model('Machine', machineSchema)

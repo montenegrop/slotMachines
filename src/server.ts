@@ -1,9 +1,7 @@
 import 'dotenv/config'
-import { validate } from 'class-validator'
-import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
 import AdminJSExpress from '@adminjs/express'
-import { adminConfig } from './admin/adminConfig'
+import adminJSMongoose from '@adminjs/mongoose'
 
 import express from 'express'
 import mongoose from 'mongoose'
@@ -15,15 +13,44 @@ import publisherRouter from './routes/publisher'
 import userRouter from './routes/user'
 
 import { MONGODB, PORT } from './settings'
+import { adminConfig } from './admin/adminConfig'
+
+import bcrypt from 'bcrypt'
+
+import User from './db/User'
 void (async () => {
   // db:
   mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
 
+  // admin
+  const adminJsOptions = {
+    ...adminConfig
+  }
   // admin router:
-  Resource.validate = validate
-  AdminJS.registerAdapter({ Database, Resource })
-  const adminJs = new AdminJS(adminConfig)
-  const adminRouter = AdminJSExpress.buildRouter(adminJs)
+  AdminJS.registerAdapter(adminJSMongoose)
+  const adminJs = new AdminJS(adminJsOptions)
+  // const adminRouter = AdminJSExpress.buildRouter(adminJs)
+
+  // Build and use a router which will handle all AdminJS routes
+  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
+    cookieName: 'adminbro',
+    cookiePassword: 'somePassword',
+    authenticate: async (email, password) => {
+      const user: any = await User.findOne({ where: { email: email } })
+      if (user !== null) {
+        const matched = await bcrypt.compare(password, user.encryptedPassword as string)
+        if (matched) {
+          return user
+        }
+      }
+      return false
+    }
+  },
+  null,
+  {
+    resave: false,
+    saveUninitialized: true
+  })
 
   // express:
   const app = express()
@@ -32,7 +59,8 @@ void (async () => {
   app.use(cors())
 
   // routers:
-  app.use('/admin', adminRouter)
+  app.use('/admin', adminUsersRouter)
+  // app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
   app.use('/publisher', publisherRouter)
   app.use('/user', userRouter)
