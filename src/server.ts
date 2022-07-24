@@ -1,5 +1,4 @@
 import 'dotenv/config'
-import { AppDataSource } from './db'
 import { validate } from 'class-validator'
 import { Database, Resource } from '@adminjs/typeorm'
 import AdminJS from 'adminjs'
@@ -16,19 +15,9 @@ import publisherRouter from './routes/publisher'
 import userRouter from './routes/user'
 
 import { MONGODB, PORT } from './settings'
-import Machine from './db/Machine'
 void (async () => {
   // db:
-  await AppDataSource.initialize()
   mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
-
-  const machine = await Machine.create({
-    name: 'vict',
-    reels: 5,
-    dias: 6
-  })
-
-  console.log('mac', machine)
 
   // admin router:
   Resource.validate = validate
