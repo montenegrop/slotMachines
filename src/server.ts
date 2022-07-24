@@ -35,7 +35,7 @@ void (async () => {
   const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
     cookieName: 'adminbro',
     cookiePassword: 'somePassword',
-    authenticate: async (email, password) => {
+    authenticate: async (email: string, password: string) => {
       const user: any = await User.findOne({ where: { email: email } })
       if (user !== null) {
         const matched = await bcrypt.compare(password, user.encryptedPassword as string)
