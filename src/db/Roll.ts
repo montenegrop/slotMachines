@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const rollSchema = new mongoose.Schema({
-  provider: {
+  publisher: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Provider'
+    ref: 'Publisher'
   },
   game: {
     type: mongoose.SchemaTypes.ObjectId,

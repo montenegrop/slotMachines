@@ -3,5 +3,6 @@
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true,
     },
-    "prettier.enable": false
+    "prettier.enable": false,
+    "editor.minimap.enabled": false
 }

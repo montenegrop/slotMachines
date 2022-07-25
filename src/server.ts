@@ -15,9 +15,7 @@ import userRouter from './routes/user'
 import { MONGODB, PORT } from './settings'
 import { adminConfig } from './admin/adminConfig'
 
-import bcrypt from 'bcrypt'
-
-import User from './db/User'
+import { routerConfig } from './admin/routerConfig'
 void (async () => {
   // db:
   mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
@@ -32,21 +30,7 @@ void (async () => {
   // const adminRouter = AdminJSExpress.buildRouter(adminJs)
 
   // Build and use a router which will handle all AdminJS routes
-  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, {
-    authenticate: async (email: string, password: string) => {
-      console.log(email, password)
-      const user: any = await User.findOne({ email: email })
-      if (user !== null) {
-        const matched = await bcrypt.compare(password, user.encryptedPassword)
-        if (matched) {
-          console.log('usuario', user)
-          return user
-        }
-      }
-      return false
-    },
-    cookiePassword: 'some-secret-password-used-to-secure-cookie'
-  })
+  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, routerConfig)
 
   // express:
   const app = express()
