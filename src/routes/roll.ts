@@ -142,7 +142,7 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
       player: player,
       bet: parseFloat(req.queryData.bet),
       result: JSON.stringify(result.spin_results.screen),
-      wins: parseFloat(result.spin_results.total_win) / 25
+      wins: parseFloat(result.spin_results.total_win) * parseFloat(req.queryData.bet) / 25
     })
     console.log(roll)
   } else {
