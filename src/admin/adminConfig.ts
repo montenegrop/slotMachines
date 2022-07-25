@@ -3,7 +3,7 @@
 // import bcrypt from 'bcrypt'
 import Game from '../db/Game'
 import Player from '../db/Player'
-import Provider from '../db/Publusher'
+import Provider from '../db/Publisher'
 import { machineConfig } from './machineConfig'
 import { rollConfig } from './rollConfig'
 import { userConfig } from './userConfig'

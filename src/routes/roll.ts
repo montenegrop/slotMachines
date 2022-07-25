@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/strict-boolean-expressions */
 import { getRollResult } from './services/rollVictorious.example'
 import { normalWinnings, freeSpinsWinnings } from './services/victorious'
 import fs from 'fs'
@@ -5,6 +7,10 @@ import path from 'path'
 import { Router } from 'express'
 import Player from '../db/Player'
 import Game from '../db/Game'
+import Publisher from '../db/Publisher'
+import { casino1 } from './publisher'
+import { parseString } from 'xml2js'
+import Roll from '../db/Roll'
 
 const router = Router()
 
@@ -74,7 +80,7 @@ const getParameters = async function (req: any, _res: any, next: any) {
     bet: parseFloat(req.query.bet),
     username: req.query.username,
     game: req.query.game,
-    provider: req.query.provider,
+    publisher: req.query.publisher,
     hash: req.query.hash
   }
   req.queryData = queryData
@@ -82,32 +88,72 @@ const getParameters = async function (req: any, _res: any, next: any) {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-router.get('/provider', getParameters, async (req: any, res) => {
-  const player = await Player.findOne({ username: req.queryData.username })
+router.get('/provider', getParameters, async (req: any, res, _next) => {
+  let result: any; let player: any
+  const errors = []
+  result = {}
+  player = await Player.findOne({ username: req.queryData.username })
+  if (player == null) {
+    player = await Player.create({ username: req.queryData.username })
+  }
+  const publisher = await Publisher.findOne({ name: req.queryData.publisher })
   const game = await Game.findOne({ name: req.queryData.game })
-  const playerBalance = player?.gameBalances.find(gameBalance => gameBalance?.game?.toString() === game?._id.toString())
-  let result
-  if (playerBalance != null) {
-    if (playerBalance?.freeSpins !== 0) {
-      console.log('no 0,', playerBalance)
-      result = rollResult(req.queryData.bet, { balance: playerBalance.balance, free_spins: playerBalance.freeSpins })
+  let playerBalance = player.gameBalances.find(
+    (gameBalance: any) => gameBalance?.game?.toString() === game?._id.toString() &&
+       gameBalance?.publisher?.toString() === publisher?._id.toString()
+  )
+  if (playerBalance == null) {
+    playerBalance = { game: game, publisher: publisher, freeSpinbalance: 0, freeSpins: 0 }
+    player.gameBalances.push(playerBalance)
+  }
+  let balanceGeneralObject: any
+
+  if (playerBalance.freeSpins !== 0) {
+    result = rollResult(req.queryData.bet, { balance: playerBalance.freeSpinbalance, free_spins: playerBalance.freeSpins })
+    playerBalance.freeSpinbalance = result.balance
+    // actualizar db
+    // actualizar publisher
+  } else {
+    // consultar si puedo apostar
+    const balanceGeneral = await casino1.placeBet(player.username, req.queryData.bet)
+    // consultar publisher por saldo:
+    parseString(balanceGeneral, { trim: true, explicitArray: false }, (_err, resu) => {
+      balanceGeneralObject = resu
+    })
+    if (balanceGeneralObject.PKT.Result.$.Success === '1') {
+      result = rollResult(req.queryData.bet, { balance: 0, free_spins: 0 })
     } else {
-      console.log('0,', playerBalance)
-      // consultar publisher por saldo
-      result = rollResult(req.queryData.bet, { balance: playerBalance.balance, free_spins: playerBalance.freeSpins })
+      errors.push('Apuesta no autorizada')
     }
   }
+
+  // const balancePostBet = parseFloat(balanceGeneralObject.PKT.Result.ReturnSet.Balance.$.Value)
 
   // actualizar publisher
 
   // actualizar db
-  if (playerBalance != null) {
-    playerBalance.balance = result.balance
-    playerBalance.freeSpins = result.free_spins_left
-  }
-  player?.save()
 
-  res.status(200).json(result)
+  console.log(JSON.stringify(result.spin_results.screen))
+
+  if (errors.length === 0) {
+    const roll = await Roll.create({
+      game: game,
+      publisher: publisher,
+      player: player,
+      bet: parseFloat(req.queryData.bet),
+      result: JSON.stringify(result.spin_results.screen),
+      wins: parseFloat(result.spin_results.total_win) / 25
+    })
+    console.log(roll)
+  } else {
+    return res.status(200).json(errors)
+  }
+
+  playerBalance.freeSpins = result.free_spins_left
+  playerBalance.lastBet = req.queryData.bet
+  await player.save()
+
+  return res.status(200).json(result)
 })
 
 export default router
