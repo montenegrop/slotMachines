@@ -1,6 +1,7 @@
 // server:
-export const rootUrl = 'https://slot-machine-zn.herokuapp.com/'
+// export const rootUrl = 'https://slot-machine-zn.herokuapp.com/'
 // export const rootUrl = 'http://localhost:3000'
+export const rootUrl = 'https://slot-machine-prod.herokuapp.com/'
 
 // database:
 const user = 'slotuser'
