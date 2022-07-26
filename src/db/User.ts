@@ -1,9 +1,9 @@
 import mongoose from 'mongoose'
 
 const userSchema = new mongoose.Schema({
-  provider: {
+  publisher: {
     type: mongoose.SchemaTypes.ObjectId,
-    ref: 'Provider'
+    ref: 'Publisher'
   },
   email: { type: String, required: true },
   encryptedPassword: { type: String, required: true },

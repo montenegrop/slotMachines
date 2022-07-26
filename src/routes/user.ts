@@ -1,6 +1,8 @@
 import { Router } from 'express'
-import { Casino1 } from '../adapters/interface'
 import { parseString } from 'xml2js'
+
+import { casino1 } from './publisher'
+import Player from '../db/Player'
 
 const router = Router()
 
@@ -8,19 +10,26 @@ const router = Router()
 //   return casino
 // }
 
+interface Details {
+  publisher?: any
+  player?: any
+}
+
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/details', async (req, res) => {
-  const casino = new Casino1('pn', 'login', 'pass')
-  console.log(req.query)
-  const token = req.query.token as string
-  console.log(token)
-  const string = await casino.getAccountDetails(token)
-  console.log('str', string, typeof string)
-  //   const xml = '<PKT><Method Name="GetAccountDetails"><Auth Login="login" Password="pass" /><Params><Token Type="string" Value="asa" /></Params></Method></PKT>'
-  parseString(string, { trim: true, explicitArray: false }, (_err, resu) => {
-    console.log('resu', resu)
-    res.status(200).json(resu)
+  const user = req.query.username
+
+  const details: Details = {}
+
+  const userDetails = await casino1.getAccountDetails(user as string)
+  parseString(userDetails, { trim: true, explicitArray: false }, (_err, resu) => {
+    details.publisher = resu
   })
+
+  const player = await Player.findOne({ name: user })
+  details.player = player
+
+  res.status(200).json(details)
 })
 
 export default router

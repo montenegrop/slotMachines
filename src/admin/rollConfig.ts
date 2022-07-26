@@ -3,7 +3,7 @@ import Roll from '../db/Roll'
 export const rollConfig = {
   resource: Roll,
   options: {
-    listProperties: ['_id', 'provider', 'game', 'player', 'bet', 'result', 'createdAt'],
+    listProperties: ['_id', 'publisher', 'game', 'player', 'bet', 'result', 'createdAt'],
     actions: {
       edit: false,
       list: {
@@ -18,7 +18,7 @@ export const rollConfig = {
             ...request,
             query: {
               ...request.query,
-              'filters.provider': currentAdmin.provider
+              'filters.publisher': currentAdmin.publisher
             }
           }
         }

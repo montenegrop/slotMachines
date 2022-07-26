@@ -1,7 +1,12 @@
 {
-    "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",  
+  "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
       "source.fixAll.eslint": true,
     },
-    "prettier.enable": false
+    "prettier.enable": true,
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "editor.rename.enablePreview": true,
+    "workbench.editor.enablePreview": false
 }

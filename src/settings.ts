@@ -1,3 +1,15 @@
+// server:
+console.log(process.env)
+let urlEnv
+if (process.env.ENV === 'dev') {
+  urlEnv = 'https://slot-machine-zn.herokuapp.com/'
+} else if (process.env.ENV === 'prod') {
+  urlEnv = 'https://slot-machine-prod.herokuapp.com'
+} else {
+  urlEnv = 'http://localhost:3000'
+}
+export const rootUrl = urlEnv
+console.log(rootUrl)
 // database:
 const user = 'slotuser'
 const password = 'slotpassword'
