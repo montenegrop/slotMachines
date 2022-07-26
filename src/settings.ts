@@ -2,7 +2,7 @@
 console.log(process.env)
 let urlEnv
 if (process.env.ENV === 'dev') {
-  urlEnv = 'https://slot-machine-zn.herokuapp.com/'
+  urlEnv = 'https://slot-machine-zn.herokuapp.com'
 } else if (process.env.ENV === 'prod') {
   urlEnv = 'https://slot-machine-prod.herokuapp.com'
 } else {

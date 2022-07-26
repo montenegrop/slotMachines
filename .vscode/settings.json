@@ -7,7 +7,7 @@
     "breadcrumbs.enabled": false,
     "editor.rename.enablePreview": true,
     "workbench.editor.enablePreview": false,
-    "editor.definitionLinkOpensInPeek": true,
+    "editor.definitionLinkOpensInPeek": false,
     "[go]": {
       "editor.multiCursorModifier": "alt",
       "editor.definitionLinkOpensInPeek": true
