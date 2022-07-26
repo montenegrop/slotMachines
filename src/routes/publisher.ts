@@ -6,7 +6,7 @@ import { Casino1 } from '../adapters/interface'
 const balance = { money: 1000.0 }
 
 const router = Router()
-export const casino1 = new Casino1('pn', 'login', 'pass')
+export const casino1 = new Casino1('pn', 'login', '  pass')
 
 router
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
@@ -21,13 +21,20 @@ router
     // res.type('application/xml')
     console.log('body', req.body)
     let body: any
-    parseString(req.body, { trim: true, explicitArray: false }, (_err, resu) => {
-      body = resu
-    })
+    parseString(
+      req.body,
+      { trim: true, explicitArray: false },
+      (_err, resu) => {
+        body = resu
+      }
+    )
     console.log('bodyjson ', body.PKT.Method.Params.BetAmount)
     let response, success
     if (body.PKT.Method.Params.BetAmount != null) {
-      if (balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value) < 0) {
+      if (
+        balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value) <
+        0
+      ) {
         success = 0
       } else {
         success = 1
@@ -38,7 +45,9 @@ router
       <Returnset>
       <Token Type="string" Value="AASASJJ2982NDD" />
       <LoginName Type="string" Value="user112" />
-      <Balance Type="long" Value="${balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value)}" />
+      <Balance Type="long" Value="${
+        balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value)
+      }" />
       </Returnset>
       </Result>
       </PKT>
@@ -57,7 +66,9 @@ router
       </PKT>
     `
     }
-    res.set({ 'content-type': 'application/xml; charset=utf-8' }).send(response)
+    res
+      .set({ 'content-type': 'application/xml; charset=utf-8' })
+      .send(response)
   })
 
 export default router
