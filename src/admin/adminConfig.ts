@@ -4,6 +4,7 @@
 import Game from '../db/Game'
 import Player from '../db/Player'
 import Provider from '../db/Publisher'
+import { localeConfig } from './localeConfig'
 import { machineConfig } from './machineConfig'
 import { rollConfig } from './rollConfig'
 import { userConfig } from './userConfig'
@@ -19,6 +20,7 @@ import { userConfig } from './userConfig'
 
 export const adminConfig = {
   // databases: [MyDataSource],
+  locale: localeConfig,
   resources: [
     { resource: Player },
     { resource: Provider },
