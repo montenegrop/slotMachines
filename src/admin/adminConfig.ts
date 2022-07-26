@@ -19,6 +19,21 @@ import { userConfig } from './userConfig'
 
 export const adminConfig = {
   // databases: [MyDataSource],
+  locale: {
+    language: 'en',
+    translations: {
+      labels: {
+        Roll: 'Jugadas'
+      },
+      resources: {
+        Roll: {
+          properties: {
+            publisher: 'prestador'
+          }
+        }
+      }
+    }
+  },
   resources: [
     { resource: Player },
     { resource: Provider },
