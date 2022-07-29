@@ -1,0 +1,21 @@
+{
+    "errors": [],
+    "publisher": {
+        "name": "casino_dialo"
+    },
+    "player": {
+        "username": "carlos",
+        "last_roll": {
+            "screen": "ABC, CNS",
+            "bet": 10,
+            "win": 0,
+            "lines": {"asa": 2}
+        },
+        "balance": 9000,
+        "free_spins_remaining": 3,
+        "free_spins_balance": 999
+    },
+    "spin_results": {
+        
+    }
+}

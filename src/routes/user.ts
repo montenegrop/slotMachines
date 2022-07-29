@@ -11,6 +11,7 @@ const router = Router()
 // }
 
 interface Details {
+  errors?: any[]
   publisher?: any
   player?: any
 }
@@ -26,8 +27,8 @@ router.get('/details', async (req, res) => {
     details.publisher = resu
   })
 
-  const player = await Player.findOne({ name: user })
-  details.player = player
+  const player = await Player.findOne({ username: user })
+  details.player = player?.gameBalances[0]
 
   res.status(200).json(details)
 })
