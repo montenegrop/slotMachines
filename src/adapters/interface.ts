@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/return-await */
 import fetch from 'node-fetch'
-import { publisherCatch } from '../errors/catch'
+import { publisherCatch } from '../errors/requests'
 import { rootUrl } from '../settings'
 import { accountDetailsXML, accountBalanceXML, placeBetXML } from './xmls'
 
@@ -65,13 +65,13 @@ export class Casino1 implements IPublisher {
     }).then(res => {
       if (res.ok) {
         const text = res.text()
-        let stat = res.status
+        let status = res.status
         let statusText = res.statusText
         return text.then(res => {
-          return { text: res, status: stat, statusText }
+          return { text: res, status, statusText }
         })
       } else {
-        return { text: "hola", status: res.status, statusText: res.statusText }
+        return { status: res.status, statusText: res.statusText }
       }
     }).catch(publisherCatch)
     return response

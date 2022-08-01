@@ -3,6 +3,7 @@ import { parseString } from 'xml2js'
 import Game from '../db/Game'
 import Player from '../db/Player'
 import Publisher from '../db/Publisher'
+import { codeProviderServer } from '../errors/requests'
 import { GeneralResponse } from '../types'
 import { casino1 } from './publisher'
 
@@ -60,15 +61,29 @@ router.get('/details', getParameters, async (req: any, res, _next) => {
 
 router.get('/placebet', getParameters, async (req: any, res, _next) => {
   // types:
-  const result: GeneralResponse = { errors: [] }
+
+  const result: GeneralResponse = {}
+  type Error = {
+    code: string,
+    name: string,
+    message: string
+  }
+  const errors: Error[] = []
   let parsedPlacedBet: any
   // types
   // get data from db:
   let placedBet: any
   try {
     placedBet = await casino1.placeBet(req.queryData.username, req.queryData.bet)
-  } catch (error) {
-    console.log('Fetch error: ', error);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      const newError = { code: codeProviderServer, name: error.name, message: error.message }
+      errors.push(newError)
+      result.errors = errors
+      res.status(500).json(result)
+    } else {
+      res.status(500).json({ code: codeProviderServer, name: "unknown", message: "unknown" })
+    }
   }
   console.log(placedBet)
   parseString(placedBet.text, { trim: true, explicitArray: false }, (_err, resu) => {
