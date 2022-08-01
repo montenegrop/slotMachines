@@ -56,12 +56,12 @@ const paymentsFreeSpin: Payments = {
 }
 const freeSpinsFreeSpin = [0, 0, 15, 20, 25]
 
-export function normalWinnings (arr: number[] = []): any {
-  let randomRoll
-  if (arr.length === 0) {
-    randomRoll = roll(lengthsNormal)
-  } else {
-    randomRoll = arr
+export function normalWinnings(arr: number[] = []): any {
+  const randomRoll = roll(lengthsNormal)
+  if (arr.length !== 0) {
+    for (let index = 0; index < arr.length; index++) {
+      randomRoll[index] = arr[index]
+    }
   }
   const reelsNormalRound = reelsRound(reelsNormal)
   const screenNormal = visibles(reelsNormalRound, randomRoll)
@@ -71,7 +71,7 @@ export function normalWinnings (arr: number[] = []): any {
   return winningsNormal
 }
 
-export function freeSpinsWinnings (): any {
+export function freeSpinsWinnings(): any {
   const randomRoll = roll(lengthsFreeSpin)
   const reelsFreeSpinRound = reelsRound(reelsFreeSpin)
   const screenFreeSpin = visibles(reelsFreeSpinRound, randomRoll)
