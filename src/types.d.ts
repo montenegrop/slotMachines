@@ -17,3 +17,29 @@ export interface Payments {
 export interface Chains {
   [key: string]: number[]
 }
+
+export interface GeneralResponse {
+  errors: [{code: 'broke', message: 'not enough money'}] | []
+  alerts?: []
+  publisher?: {
+    name: 'casino_dialo'
+  }
+  player?: {
+    username?: string
+    last_roll?: {
+      screen?: string[]
+      bet?: number
+    }
+    balance?: number
+    free_spins_left?: number
+    free_spins_balance?: number
+  }
+  spin_results?: {
+    screen: string[]
+    total_win: number
+    free_spins: number
+    line_wins: [
+      {symbol: string, chain: number[], win: number}
+    ]
+  }
+}

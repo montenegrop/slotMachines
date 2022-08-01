@@ -1,5 +1,4 @@
 // server:
-console.log(process.env)
 let urlEnv
 if (process.env.ENV === 'dev') {
   urlEnv = 'https://slot-machine-zn.herokuapp.com'

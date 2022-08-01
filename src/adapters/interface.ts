@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/return-await */
 import fetch from 'node-fetch'
+import { publisherCatch } from '../errors/catch'
 import { rootUrl } from '../settings'
 import { accountDetailsXML, accountBalanceXML, placeBetXML } from './xmls'
 
@@ -20,13 +21,13 @@ export class Casino1 implements IPublisher {
   login: string
   password: string
 
-  constructor (pn: string, login: string, password: string) {
+  constructor(pn: string, login: string, password: string) {
     this.pn = pn
     this.login = login
     this.password = password
   }
 
-  async getAccountDetails (
+  async getAccountDetails(
     token: string,
     publisher: Publisher = { login: this.login, password: this.password }
   ): Promise<string> {
@@ -39,7 +40,7 @@ export class Casino1 implements IPublisher {
     return response
   }
 
-  async getAccountBalance (
+  async getAccountBalance(
     token: string,
     publisher: Publisher = { login: this.login, password: this.password }
   ): Promise<string> {
@@ -52,17 +53,27 @@ export class Casino1 implements IPublisher {
     return response
   }
 
-  async placeBet (
+  placeBet(
     token: string,
     bet: number,
     publisher: Publisher = { login: this.login, password: this.password }
-  ): Promise<string> {
-    const response: any = await fetch(`${rootUrl}/publisher`, {
+  ): Promise<any> {
+    const response: any = fetch(`${rootUrl}/publisherr`, {
       method: 'post',
       body: placeBetXML(token, bet, publisher),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(async res => await res.text())
-
+    }).then(res => {
+      if (res.ok) {
+        const text = res.text()
+        let stat = res.status
+        let statusText = res.statusText
+        return text.then(res => {
+          return { text: res, status: stat, statusText }
+        })
+      } else {
+        return { text: "hola", status: res.status, statusText: res.statusText }
+      }
+    }).catch(publisherCatch)
     return response
   }
 }

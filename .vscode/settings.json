@@ -1,15 +1,25 @@
 {
   "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-      "source.fixAll.eslint": true,
-    },
-    "editor.minimap.enabled": false,
-    "breadcrumbs.enabled": false,
-    "editor.rename.enablePreview": true,
-    "workbench.editor.enablePreview": false,
-    "editor.definitionLinkOpensInPeek": false,
-    "[go]": {
-      "editor.multiCursorModifier": "alt",
-      "editor.definitionLinkOpensInPeek": true
-    },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "editor.minimap.enabled": false,
+  "breadcrumbs.enabled": false,
+  "editor.rename.enablePreview": true,
+  "workbench.editor.enablePreview": false,
+  "editor.definitionLinkOpensInPeek": false,
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": false,
+    "strings": false
+  },
+  "editor.suggest.snippetsPreventQuickSuggestions": false,
+  "editor.quickSuggestionsDelay": 0,
+  "workbench.editorAssociations": [
+    {
+        "viewType": "jupyter-notebook",
+        "filenamePattern": "*.ipynb"
+    }
+  ],
+  "typescript.validate.enable": false
 }
