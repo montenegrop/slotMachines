@@ -1,10 +1,10 @@
 import { freeSpinsWinnings, normalWinnings } from '../routes/services/victorious'
 
-export function rollResult (bet: number, userData: {balance: number, free_spins: number}): any {
+export function rollResult(bet: number, userData: { balance: number, free_spins: number }): any {
   if (userData.free_spins !== 0) {
     const resultFreeSpin = freeSpinsWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    userData.free_spins += resultFreeSpin.free_spins - bet
+    userData.free_spins += resultFreeSpin.free_spins - 1
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance += (resultFreeSpin.total_win * bet) / 25
 
@@ -15,7 +15,7 @@ export function rollResult (bet: number, userData: {balance: number, free_spins:
     const resultNormal = normalWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance +=
-        (resultNormal.total_win * bet) / 25 - bet
+      (resultNormal.total_win * bet) / 25 - bet
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
 

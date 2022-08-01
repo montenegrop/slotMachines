@@ -1,4 +1,4 @@
-const codePublisherServer = "PUBLISHER_SERVER"
+export const codePublisherServer = "PUBLISHER_SERVER"
 export const codeProviderServer = "PROVIDER_SERVER"
 
 export function publisherCatch(error: Error) {

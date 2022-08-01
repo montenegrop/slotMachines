@@ -22,7 +22,7 @@ export interface GeneralResponse {
   errors?: { code: string, name: string, message: string }[] | []
   alerts?: []
   publisher?: {
-    name: 'casino_dialo'
+    name: string
   }
   player?: {
     username?: string
@@ -42,4 +42,10 @@ export interface GeneralResponse {
       { symbol: string, chain: number[], win: number }
     ]
   }
+}
+
+export type ErrorType = {
+  code: string
+  name: string
+  message: string
 }

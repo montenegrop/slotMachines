@@ -58,7 +58,7 @@ export class Casino1 implements IPublisher {
     bet: number,
     publisher: Publisher = { login: this.login, password: this.password }
   ): Promise<any> {
-    const response: any = fetch(`${rootUrl}/publisherr`, {
+    const response: any = fetch(`${rootUrl}/publisher`, {
       method: 'post',
       body: placeBetXML(token, bet, publisher),
       headers: { 'Content-Type': 'application/xml' }
