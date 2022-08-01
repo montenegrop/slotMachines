@@ -62,6 +62,35 @@ router.get('/details', getParameters, async (req: any, res, _next) => {
   return res.status(200).json(result)
 })
 
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+router.get('/dbdetails', getParameters, async (req: any, res, _next) => {
+  // types:
+  const result: GeneralResponse = { errors: [] }
+  // types
+  // get data from db:
+  const player = await Player.findOne({ username: req.queryData.username })
+  const publisher = await Publisher.findOne({ name: req.queryData.publisher })
+  const game = await Game.findOne({ name: req.queryData.game })
+  // get data from db
+  // procces db data:
+  const playerBalance = ((player?.gameBalances) != null)
+    ? player.gameBalances?.find(
+      (gameBalance) => gameBalance?.game?.toString() === game?._id.toString() &&
+        gameBalance?.publisher?.toString() === publisher?._id.toString()
+    )
+    : null
+  // procces db data
+  // get player details from publisher
+  result.player = {
+    username: player?.username,
+    free_spins_left: playerBalance?.freeSpins ?? 0,
+    free_spins_balance: playerBalance?.freeSpinbalance ?? 0,
+    balance: playerBalance?.lastBalance,
+    last_roll: playerBalance?.lastScreen?.length ? { screen: playerBalance?.lastScreen, bet: playerBalance?.lastBet } : undefined
+  }
+  return res.status(200).json(result)
+})
+
 router.get('/placebet', getParameters, async (req: any, res, _next) => {
   // types:
   const result: GeneralResponse = {}
@@ -126,6 +155,7 @@ router.get('/placebet', getParameters, async (req: any, res, _next) => {
   playerBalance.lastBalance += rollResults.balance
   playerBalance.freeSpins = rollResults.free_spins_left
   playerBalance.lastBet = req.queryData.bet
+  playerBalance.lastScreen = rollResults.spin_results.screen
   await player.save()
 
   if (errors.length === 0) {
