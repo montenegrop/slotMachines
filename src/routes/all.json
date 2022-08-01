@@ -1,5 +1,5 @@
 {
-    "errors": [{"code": "broke", "message": "not enough money"}],
+    "errors": [{"code": "PUBLISHER_BROKE", "name": "error name", "message": "not enough money"}],
     "alerts": [],
     "publisher": {
         "name": "casino_dialo"
