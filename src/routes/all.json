@@ -1,21 +1,26 @@
 {
-    "errors": [],
+    "errors": [{"code": "broke", "message": "not enough money"}],
+    "alerts": [],
     "publisher": {
         "name": "casino_dialo"
     },
     "player": {
         "username": "carlos",
         "last_roll": {
-            "screen": "ABC, CNS",
-            "bet": 10,
-            "win": 0,
-            "lines": {"asa": 2}
+            "screen": ["BFC","JDA","DFS","IBW","GDF"],
+            "bet": 55.3
         },
-        "balance": 9000,
-        "free_spins_remaining": 3,
-        "free_spins_balance": 999
+        "balance": 9000.3,
+        "free_spins_left": 23,
+        "free_spins_balance": 999.67
     },
     "spin_results": {
-        
+        "screen": ["BFC","JDA","DFS","IBW","GDF"],
+        "total_win": 12.3,
+        "free_spins": 20,
+        "line_wins": [
+            {"symbol": "B", "chain": [0,1,0], "win": 2.5},
+            {"symbol": "S", "chain": [1,2,0,0], "win": 7.1}
+        ]
     }
 }

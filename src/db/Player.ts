@@ -10,7 +10,14 @@ const gameBalanceSchema = new mongoose.Schema(
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Publisher'
     },
-    lastBet: Number,
+    lastScreen: {
+      type: [String],
+      default: []
+    },
+    lastBet: {
+      type: Number,
+      default: 0
+    },
     lastBalance: {
       type: Number,
       default: 0

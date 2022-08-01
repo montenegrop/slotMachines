@@ -16,6 +16,8 @@ import { MONGODB, PORT } from './settings'
 import { adminConfig } from './admin/adminConfig'
 
 import { routerConfig } from './admin/routerConfig'
+
+import testRouter from './routes/test'
 void (async () => {
   // db:
   mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
@@ -44,6 +46,7 @@ void (async () => {
   app.use('/api', rollRouter)
   app.use('/publisher', publisherRouter)
   app.use('/user', userRouter)
+  app.use('/test', testRouter)
 
   // servers:
   app.listen(PORT)
