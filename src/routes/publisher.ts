@@ -5,7 +5,7 @@ import { Casino1 } from '../adapters/interface'
 
 const balance = { money: 1000.0 }
 const router = Router()
-export const casino1 = new Casino1('pn', 'login', '  pass')
+export const casino1 = new Casino1('pn', 'login', 'pass')
 router
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .get('/', async (_req, res) => {

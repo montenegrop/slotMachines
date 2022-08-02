@@ -100,7 +100,7 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
   const game = await Game.findOne({ name: req.queryData.game })
   let playerBalance = player.gameBalances.find(
     (gameBalance: any) => gameBalance?.game?.toString() === game?._id.toString() &&
-       gameBalance?.publisher?.toString() === publisher?._id.toString()
+      gameBalance?.publisher?.toString() === publisher?._id.toString()
   )
   if (playerBalance == null) {
     playerBalance = { game: game, publisher: publisher, freeSpinbalance: 0, freeSpins: 0 }
@@ -115,7 +115,7 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
     // actualizar publisher
   } else {
     // consultar si puedo apostar
-    const balanceGeneral = await casino1.placeBet(player.username, req.queryData.bet)
+    const balanceGeneral = await casino1.placeBet(player.username, req.queryData.bet, null, "transactionId", 1234123, "gameReferencce")
     // consultar publisher por saldo:
     parseString(balanceGeneral, { trim: true, explicitArray: false }, (_err, resu) => {
       balanceGeneralObject = resu
@@ -158,7 +158,7 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
 
 export default router
 
-function rollResult (bet: number, userData: {balance: number, free_spins: number}): any {
+function rollResult(bet: number, userData: { balance: number, free_spins: number }): any {
   if (userData.free_spins !== 0) {
     const resultFreeSpin = freeSpinsWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands

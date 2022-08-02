@@ -103,7 +103,7 @@ router.get('/placebet', getParameters, async (req: any, res, _next) => {
   player = await Player.findOne({ username: req.queryData.username })
   // supongamos no tiene fs
   try {
-    placedBet = await casino1.placeBet(req.queryData.username, req.queryData.bet)
+    placedBet = await casino1.placeBet(req.queryData.username, req.queryData.bet, null, "transactionId", 1234123, "gameReferencce")
   } catch (error: unknown) {
     if (error instanceof Error) {
       const newError = { code: codeProviderServer, name: error.name, message: error.message }

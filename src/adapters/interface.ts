@@ -13,7 +13,14 @@ export type Publisher = {
 interface IPublisher {
   getAccountDetails: (token: string, publisher: Publisher) => Promise<string>
   getAccountBalance: (token: string, publisher: Publisher) => Promise<string>
-  placeBet: (token: string, bet: number, publisher: Publisher) => Promise<string>
+  placeBet: (
+    token: string,
+    bet: number,
+    publisher: Publisher,
+    transactionID: string,
+    betReferenceNum: number,
+    gameReference: string
+  ) => Promise<string>
 }
 
 export class Casino1 implements IPublisher {
@@ -56,17 +63,20 @@ export class Casino1 implements IPublisher {
   placeBet(
     token: string,
     bet: number,
-    publisher: Publisher = { login: this.login, password: this.password }
+    publisher: Publisher | null,
+    transactionID: string,
+    betReferenceNum: number,
+    gameReference: string
   ): Promise<any> {
     const response: any = fetch(`${rootUrl}/publisher`, {
       method: 'post',
-      body: placeBetXML(token, bet, publisher),
+      body: placeBetXML(token, bet, publisher ?? { login: this.login, password: this.password }, transactionID, betReferenceNum, gameReference),
       headers: { 'Content-Type': 'application/xml' }
     }).then(res => {
       if (res.ok) {
         const text = res.text()
-        let status = res.status
-        let statusText = res.statusText
+        const status = res.status
+        const statusText = res.statusText
         return text.then(res => {
           return { text: res, status, statusText }
         })
