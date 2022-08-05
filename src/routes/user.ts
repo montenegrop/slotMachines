@@ -19,17 +19,17 @@ interface Details {
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/details', async (req, res) => {
   const user = req.query.username
-
   const details: Details = {}
-
   const userDetails = await casino1.getAccountDetails(user as string)
-  parseString(userDetails, { trim: true, explicitArray: false }, (_err, resu) => {
-    details.publisher = resu
-  })
-
+  parseString(
+    userDetails,
+    { trim: true, explicitArray: false },
+    (_err, resu) => {
+      details.publisher = resu
+    }
+  )
   const player = await Player.findOne({ username: user })
   details.player = player?.gameBalances[0]
-
   res.status(200).json(details)
 })
 

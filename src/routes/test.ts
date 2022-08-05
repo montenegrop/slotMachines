@@ -36,12 +36,14 @@ router.get('/details', getParameters, async (req: any, res, _next) => {
   const game = await Game.findOne({ name: req.queryData.game })
   // get data from db
   // procces db data:
-  const playerBalance = ((player?.gameBalances) != null)
-    ? player.gameBalances?.find(
-      (gameBalance) => gameBalance?.game?.toString() === game?._id.toString() &&
-        gameBalance?.publisher?.toString() === publisher?._id.toString()
-    )
-    : null
+  const playerBalance =
+    player?.gameBalances != null
+      ? player.gameBalances?.find(
+          (gameBalance) =>
+            gameBalance?.game?.toString() === game?._id.toString() &&
+            gameBalance?.publisher?.toString() === publisher?._id.toString()
+        )
+      : null
 
   // procces db data
   // get player details from publisher:
@@ -56,7 +58,10 @@ router.get('/details', getParameters, async (req: any, res, _next) => {
     free_spins_left: playerBalance?.freeSpins ?? 0,
     free_spins_balance: playerBalance?.freeSpinbalance ?? 0,
     balance: parsedDetails.PKT.Result.Returnset.Balance.$.Value,
-    last_roll: { screen: playerBalance?.lastScreen, bet: playerBalance?.lastBet }
+    last_roll: {
+      screen: playerBalance?.lastScreen,
+      bet: playerBalance?.lastBet
+    }
   }
 
   return res.status(200).json(result)
@@ -73,12 +78,14 @@ router.get('/dbdetails', getParameters, async (req: any, res, _next) => {
   const game = await Game.findOne({ name: req.queryData.game })
   // get data from db
   // procces db data:
-  const playerBalance = ((player?.gameBalances) != null)
-    ? player.gameBalances?.find(
-      (gameBalance) => gameBalance?.game?.toString() === game?._id.toString() &&
-        gameBalance?.publisher?.toString() === publisher?._id.toString()
-    )
-    : null
+  const playerBalance =
+    player?.gameBalances != null
+      ? player.gameBalances?.find(
+          (gameBalance) =>
+            gameBalance?.game?.toString() === game?._id.toString() &&
+            gameBalance?.publisher?.toString() === publisher?._id.toString()
+        )
+      : null
   // procces db data
   // get player details from publisher
   result.player = {
@@ -86,7 +93,9 @@ router.get('/dbdetails', getParameters, async (req: any, res, _next) => {
     free_spins_left: playerBalance?.freeSpins ?? 0,
     free_spins_balance: playerBalance?.freeSpinbalance ?? 0,
     balance: playerBalance?.lastBalance,
-    last_roll: playerBalance?.lastScreen?.length ? { screen: playerBalance?.lastScreen, bet: playerBalance?.lastBet } : undefined
+    last_roll: playerBalance?.lastScreen?.length
+      ? { screen: playerBalance?.lastScreen, bet: playerBalance?.lastBet }
+      : undefined
   }
   return res.status(200).json(result)
 })
@@ -103,53 +112,93 @@ router.get('/placebet', getParameters, async (req: any, res, _next) => {
   player = await Player.findOne({ username: req.queryData.username })
   // supongamos no tiene fs
   try {
-    placedBet = await casino1.placeBet(req.queryData.username, req.queryData.bet, null, "transactionId", 1234123, "gameReferencce")
+    placedBet = await casino1.placeBet(
+      req.queryData.username,
+      req.queryData.bet,
+      null,
+      'transactionId',
+      1234123,
+      'gameReferencce'
+    )
   } catch (error: unknown) {
     if (error instanceof Error) {
-      const newError = { code: codeProviderServer, name: error.name, message: error.message }
+      const newError = {
+        code: codeProviderServer,
+        name: error.name,
+        message: error.message
+      }
       errors.push(newError)
       result.errors = errors
       res.status(500).json(result)
     } else {
-      res.status(500).json({ code: codeProviderServer, name: "unknown", message: "unknown" })
+      res.status(500).json({
+        code: codeProviderServer,
+        name: 'unknown',
+        message: 'unknown'
+      })
     }
   }
-  if (!(placedBet.text)) {
-    const newError = { code: codePublisherServer, name: placedBet.status.toString(), message: placedBet.statusText }
+  if (!placedBet.text) {
+    const newError = {
+      code: codePublisherServer,
+      name: placedBet.status.toString(),
+      message: placedBet.statusText
+    }
     errors.push(newError)
     result.errors = errors
     return res.status(200).json(result)
   }
-  parseString(placedBet.text, { trim: true, explicitArray: false }, (_err, parsed) => {
-    placedBetText = parsed
-  })
+  parseString(
+    placedBet.text,
+    { trim: true, explicitArray: false },
+    (_err, parsed) => {
+      placedBetText = parsed
+    }
+  )
   const successValue = getNested(placedBetText, 'PKT', 'Result', '$', 'Success')
-  if (successValue !== "0" && successValue !== "1") {
-    const newError = { code: "PUBLISHER_REJECTED_BET", name: placedBet.status.toString(), message: placedBet.statusText }
+  if (successValue !== '0' && successValue !== '1') {
+    const newError = {
+      code: 'PUBLISHER_REJECTED_BET',
+      name: placedBet.status.toString(),
+      message: placedBet.statusText
+    }
     errors.push(newError)
     result.errors = errors
     return res.status(200).json(result)
   }
-  if (successValue === "0") {
-    const newError = { code: "PUBLISHER_REJECTED_BET", name: placedBet.status.toString(), message: placedBet.statusText }
+  if (successValue === '0') {
+    const newError = {
+      code: 'PUBLISHER_REJECTED_BET',
+      name: placedBet.status.toString(),
+      message: placedBet.statusText
+    }
     errors.push(newError)
     result.errors = errors
     return res.status(200).json(result)
   }
   // at this point successValue === "1":
   // get roll:
-  const rollResults = rollResult(req.queryData.bet, { balance: 0, free_spins: 0 })
+  const rollResults = rollResult(req.queryData.bet, {
+    balance: 0,
+    free_spins: 0
+  })
   const publisher = await Publisher.findOne({ name: req.queryData.publisher })
   const game = await Game.findOne({ name: req.queryData.game })
   if (player == null) {
     player = await Player.create({ username: req.queryData.username })
   }
   let playerBalance = player.gameBalances.find(
-    (gameBalance: any) => gameBalance?.game?.toString() === game?._id.toString() &&
+    (gameBalance: any) =>
+      gameBalance?.game?.toString() === game?._id.toString() &&
       gameBalance?.publisher?.toString() === publisher?._id.toString()
   )
   if (playerBalance == null) {
-    playerBalance = { game: game, publisher: publisher, freeSpinbalance: 0, freeSpins: 0 }
+    playerBalance = {
+      game: game,
+      publisher: publisher,
+      freeSpinbalance: 0,
+      freeSpins: 0
+    }
     player.gameBalances.push(playerBalance)
   }
   playerBalance.lastBalance += rollResults.balance
@@ -172,10 +221,13 @@ router.get('/placebet', getParameters, async (req: any, res, _next) => {
     return res.status(200).json(errors)
   }
   result.errors = errors
-  result.publisher = { name: publisher?.name || "PUBLISHER NAME" }
+  result.publisher = { name: publisher?.name || 'PUBLISHER NAME' }
   result.player = {
     username: req.queryData.username,
-    last_roll: { screen: rollResults.spin_results.screen, bet: req.queryData.bet },
+    last_roll: {
+      screen: rollResults.spin_results.screen,
+      bet: req.queryData.bet
+    },
     balance: playerBalance.lastBalance,
     free_spins_balance: playerBalance.freeSpinbalance,
     free_spins_left: playerBalance.freeSpins
@@ -187,4 +239,3 @@ router.get('/placebet', getParameters, async (req: any, res, _next) => {
 })
 
 export default router
-

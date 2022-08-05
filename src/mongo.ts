@@ -1,3 +1,5 @@
 import mongoose from 'mongoose'
 
-mongoose.connect('slotMongo', () => { 'connected to mongo' })
+mongoose.connect('slotMongo', () => {
+  'connected to mongo'
+})

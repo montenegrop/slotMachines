@@ -22,7 +22,12 @@ if (!fs.existsSync(dir)) {
 
 fs.writeFileSync(
   path.join(__dirname, '../players/player2.json'),
-  JSON.stringify({ id: 2, balance: 1000, free_spins: 0, screen: ['EFS', 'DEJ', 'GDB', 'FCJ', 'SCJ'] })
+  JSON.stringify({
+    id: 2,
+    balance: 1000,
+    free_spins: 0,
+    screen: ['EFS', 'DEJ', 'GDB', 'FCJ', 'SCJ']
+  })
 )
 
 router.get('/example/victorious', (_req, res) => {
@@ -50,7 +55,11 @@ router.get('/victorious', async (req, res) => {
       path.join(__dirname, '../players/player2.json'),
       JSON.stringify(userData)
     )
-    res.status(200).json({ spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins })
+    res.status(200).json({
+      spin_results: resultFreeSpin,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    })
   } else {
     let arr: number[] = []
     if (req.query.arr?.length !== undefined) {
@@ -70,7 +79,11 @@ router.get('/victorious', async (req, res) => {
       path.join(__dirname, '../players/player2.json'),
       JSON.stringify(userData)
     )
-    res.status(200).json({ spin_results: resultNormal, balance: userData.balance, free_spins_left: userData.free_spins })
+    res.status(200).json({
+      spin_results: resultNormal,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    })
   }
 })
 
@@ -89,7 +102,8 @@ const getParameters = async function (req: any, _res: any, next: any) {
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 router.get('/provider', getParameters, async (req: any, res, _next) => {
-  let result: any; let player: any
+  let result: any
+  let player: any
   const errors = []
   result = {}
   player = await Player.findOne({ username: req.queryData.username })
@@ -99,27 +113,47 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
   const publisher = await Publisher.findOne({ name: req.queryData.publisher })
   const game = await Game.findOne({ name: req.queryData.game })
   let playerBalance = player.gameBalances.find(
-    (gameBalance: any) => gameBalance?.game?.toString() === game?._id.toString() &&
+    (gameBalance: any) =>
+      gameBalance?.game?.toString() === game?._id.toString() &&
       gameBalance?.publisher?.toString() === publisher?._id.toString()
   )
   if (playerBalance == null) {
-    playerBalance = { game: game, publisher: publisher, freeSpinbalance: 0, freeSpins: 0 }
+    playerBalance = {
+      game: game,
+      publisher: publisher,
+      freeSpinbalance: 0,
+      freeSpins: 0
+    }
     player.gameBalances.push(playerBalance)
   }
   let balanceGeneralObject: any
 
   if (playerBalance.freeSpins !== 0) {
-    result = rollResult(req.queryData.bet, { balance: playerBalance.freeSpinbalance, free_spins: playerBalance.freeSpins })
+    result = rollResult(req.queryData.bet, {
+      balance: playerBalance.freeSpinbalance,
+      free_spins: playerBalance.freeSpins
+    })
     playerBalance.freeSpinbalance = result.balance
     // actualizar db
     // actualizar publisher
   } else {
     // consultar si puedo apostar
-    const balanceGeneral = await casino1.placeBet(player.username, req.queryData.bet, null, "transactionId", 1234123, "gameReferencce")
+    const balanceGeneral = await casino1.placeBet(
+      player.username,
+      req.queryData.bet,
+      null,
+      'transactionId',
+      1234123,
+      'gameReferencce'
+    )
     // consultar publisher por saldo:
-    parseString(balanceGeneral, { trim: true, explicitArray: false }, (_err, resu) => {
-      balanceGeneralObject = resu
-    })
+    parseString(
+      balanceGeneral,
+      { trim: true, explicitArray: false },
+      (_err, resu) => {
+        balanceGeneralObject = resu
+      }
+    )
     if (balanceGeneralObject.PKT.Result.$.Success === '1') {
       result = rollResult(req.queryData.bet, { balance: 0, free_spins: 0 })
     } else {
@@ -142,7 +176,10 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
       player: player,
       bet: parseFloat(req.queryData.bet),
       result: JSON.stringify(result.spin_results.screen),
-      wins: parseFloat(result.spin_results.total_win) * parseFloat(req.queryData.bet) / 25
+      wins:
+        (parseFloat(result.spin_results.total_win) *
+          parseFloat(req.queryData.bet)) /
+        25
     })
     console.log(roll)
   } else {
@@ -158,7 +195,10 @@ router.get('/provider', getParameters, async (req: any, res, _next) => {
 
 export default router
 
-function rollResult(bet: number, userData: { balance: number, free_spins: number }): any {
+function rollResult(
+  bet: number,
+  userData: { balance: number; free_spins: number }
+): any {
   if (userData.free_spins !== 0) {
     const resultFreeSpin = freeSpinsWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -168,16 +208,23 @@ function rollResult(bet: number, userData: { balance: number, free_spins: number
 
     // escribir db
 
-    return { spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins }
+    return {
+      spin_results: resultFreeSpin,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    }
   } else {
     const resultNormal = normalWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    userData.balance +=
-      (resultNormal.total_win * bet) / 25 - bet
+    userData.balance += (resultNormal.total_win * bet) / 25 - bet
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
 
     // escribir db
-    return { spin_results: resultNormal, balance: userData.balance, free_spins_left: userData.free_spins }
+    return {
+      spin_results: resultNormal,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    }
   }
 }

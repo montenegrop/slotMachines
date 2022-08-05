@@ -42,7 +42,7 @@ export class Casino1 implements IPublisher {
       method: 'post',
       body: accountDetailsXML(token, publisher),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(async res => await res.text())
+    }).then(async (res) => await res.text())
 
     return response
   }
@@ -55,7 +55,7 @@ export class Casino1 implements IPublisher {
       method: 'post',
       body: accountBalanceXML(token, publisher),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(async res => await res.text())
+    }).then(async (res) => await res.text())
 
     return response
   }
@@ -70,20 +70,29 @@ export class Casino1 implements IPublisher {
   ): Promise<any> {
     const response: any = fetch(`${rootUrl}/publisher`, {
       method: 'post',
-      body: placeBetXML(token, bet, publisher ?? { login: this.login, password: this.password }, transactionID, betReferenceNum, gameReference),
+      body: placeBetXML(
+        token,
+        bet,
+        publisher ?? { login: this.login, password: this.password },
+        transactionID,
+        betReferenceNum,
+        gameReference
+      ),
       headers: { 'Content-Type': 'application/xml' }
-    }).then(res => {
-      if (res.ok) {
-        const text = res.text()
-        const status = res.status
-        const statusText = res.statusText
-        return text.then(res => {
-          return { text: res, status, statusText }
-        })
-      } else {
-        return { status: res.status, statusText: res.statusText }
-      }
-    }).catch(publisherCatch)
+    })
+      .then((res) => {
+        if (res.ok) {
+          const text = res.text()
+          const status = res.status
+          const statusText = res.statusText
+          return text.then((res) => {
+            return { text: res, status, statusText }
+          })
+        } else {
+          return { status: res.status, statusText: res.statusText }
+        }
+      })
+      .catch(publisherCatch)
     return response
   }
 }

@@ -3,7 +3,14 @@ import Roll from '../db/Roll'
 export const rollConfig = {
   resource: Roll,
   options: {
-    listProperties: ['publisher', 'game', 'player', 'bet', 'result', 'createdAt'],
+    listProperties: [
+      'publisher',
+      'game',
+      'player',
+      'bet',
+      'result',
+      'createdAt'
+    ],
     actions: {
       edit: false,
       list: {

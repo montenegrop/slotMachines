@@ -19,7 +19,7 @@ export interface Chains {
 }
 
 export interface GeneralResponse {
-  errors?: { code: string, name: string, message: string }[] | []
+  errors?: { code: string; name: string; message: string }[] | []
   alerts?: []
   publisher?: {
     name: string
@@ -38,9 +38,7 @@ export interface GeneralResponse {
     screen: string[]
     total_win: number
     free_spins: number
-    line_wins: [
-      { symbol: string, chain: number[], win: number }
-    ]
+    line_wins: [{ symbol: string; chain: number[]; win: number }]
   }
 }
 
