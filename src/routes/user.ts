@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { parseString } from 'xml2js'
 
 import { casino1 } from './publisher'
-import Player from '../db/Player'
+import Player from '../db/models/Player'
 
 const router = Router()
 

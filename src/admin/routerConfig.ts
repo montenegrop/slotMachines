@@ -1,4 +1,4 @@
-import User from '../db/User'
+import User from '../db/models/User'
 import bcrypt from 'bcrypt'
 
 export const routerConfig = {

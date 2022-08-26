@@ -5,12 +5,12 @@ import { normalWinnings, freeSpinsWinnings } from './services/victorious'
 import fs from 'fs'
 import path from 'path'
 import { Router } from 'express'
-import Player from '../db/Player'
-import Game from '../db/Game'
-import Publisher from '../db/Publisher'
+import Player from '../db/models/Player'
+import Game from '../db/models/Game'
+import Publisher from '../db/models/Publisher'
 import { casino1 } from './publisher'
 import { parseString } from 'xml2js'
-import Roll from '../db/Roll'
+import Roll from '../db/models/Roll'
 
 const router = Router()
 
