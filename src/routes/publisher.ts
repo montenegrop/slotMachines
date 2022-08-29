@@ -5,7 +5,7 @@ import { Casino1 } from '../adapters/interface'
 
 const balance = { money: 1000.0 }
 const router = Router()
-export const casino1 = new Casino1('pn', 'login', '  pass')
+export const casino1 = new Casino1('pn', 'login', 'pass')
 router
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   .get('/', async (_req, res) => {
@@ -40,8 +40,9 @@ router
       <Returnset>
       <Token Type="string" Value="AASASJJ2982NDD" />
       <LoginName Type="string" Value="user11Betting" />
-      <Balance Type="long" Value="${balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value)
-        }" />
+      <Balance Type="long" Value="${
+        balance.money - parseFloat(body.PKT.Method.Params.BetAmount.$.Value)
+      }" />
       </Returnset>
       </Result>
       </PKT>
@@ -60,9 +61,7 @@ router
       </PKT>
     `
     }
-    res
-      .set({ 'content-type': 'application/xml; charset=utf-8' })
-      .send(response)
+    res.set({ 'content-type': 'application/xml; charset=utf-8' }).send(response)
   })
 
 export default router

@@ -2,7 +2,10 @@
 
 import { Publisher } from './interface'
 
-export const accountDetailsXML = (token: string, publisher: Publisher): string => {
+export const accountDetailsXML = (
+  token: string,
+  publisher: Publisher
+): string => {
   const string = `
   <PKT>
     <Method Name="GetAccountDetails">
@@ -16,7 +19,10 @@ export const accountDetailsXML = (token: string, publisher: Publisher): string =
   return string
 }
 
-export const accountBalanceXML = (token: string, publisher: Publisher): string => {
+export const accountBalanceXML = (
+  token: string,
+  publisher: Publisher
+): string => {
   const string = `
     <PKT>
         <Method Name="GetAccountBalance">
@@ -31,19 +37,26 @@ export const accountBalanceXML = (token: string, publisher: Publisher): string =
   return string
 }
 
-export const placeBetXML = (token: string, bet: number, publisher: Publisher): string => {
+export const placeBetXML = (
+  token: string,
+  bet: number,
+  publisher: Publisher,
+  transactionID: string,
+  betReferenceNum: number,
+  gameReference: string
+): string => {
   const string = `
     <PKT>
-    <Method Name="PlaceBet">
-    <Auth Login="${publisher.login}" Password="${publisher.password}" />
-    <Params>
-    <Token Type="string" Value="${token}" />
-    <TransactionID Type="string" Value="xxx_xxx_43211234" />
-    <BetReferenceNum Type="long" Value="1234" />
-    <BetAmount Type="int" Value="${bet}" />
-    <GameReference Type="string" Value="1221_124" />
-    </Params>
-    </Method>
+      <Method Name="PlaceBet">
+      <Auth Login="${publisher.login}" Password="${publisher.password}" />
+        <Params>
+          <Token Type="string" Value="${token}" />
+          <TransactionID Type="string" Value="${transactionID}" />
+          <BetReferenceNum Type="long" Value="${betReferenceNum}" />
+          <BetAmount Type="int" Value="${bet}" />
+          <GameReference Type="string" Value="${gameReference}" />
+        </Params>
+      </Method>
     </PKT>
     `
   return string

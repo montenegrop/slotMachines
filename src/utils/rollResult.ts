@@ -1,6 +1,12 @@
-import { freeSpinsWinnings, normalWinnings } from '../routes/services/victorious'
+import {
+  freeSpinsWinnings,
+  normalWinnings
+} from '../routes/services/victorious'
 
-export function rollResult(bet: number, userData: { balance: number, free_spins: number }): any {
+export function rollResult(
+  bet: number,
+  userData: { balance: number; free_spins: number }
+): any {
   if (userData.free_spins !== 0) {
     const resultFreeSpin = freeSpinsWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
@@ -10,16 +16,23 @@ export function rollResult(bet: number, userData: { balance: number, free_spins:
 
     // escribir db
 
-    return { spin_results: resultFreeSpin, balance: userData.balance, free_spins_left: userData.free_spins }
+    return {
+      spin_results: resultFreeSpin,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    }
   } else {
     const resultNormal = normalWinnings()
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-    userData.balance +=
-      (resultNormal.total_win * bet) / 25 - bet
+    userData.balance += (resultNormal.total_win * bet) / 25 - bet
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
 
     // escribir db
-    return { spin_results: resultNormal, balance: userData.balance, free_spins_left: userData.free_spins }
+    return {
+      spin_results: resultNormal,
+      balance: userData.balance,
+      free_spins_left: userData.free_spins
+    }
   }
 }

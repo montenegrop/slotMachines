@@ -1,4 +1,4 @@
-import User from '../db/User'
+import User from '../db/models/User'
 import bcrypt from 'bcrypt'
 
 export const userConfig = {
@@ -11,7 +11,10 @@ export const userConfig = {
       password: {
         type: 'string',
         isVisible: {
-          list: false, edit: true, filter: false, show: false
+          list: false,
+          edit: true,
+          filter: false,
+          show: false
         }
       }
     },
@@ -24,7 +27,10 @@ export const userConfig = {
           if (request.payload.password) {
             request.payload = {
               ...request.payload,
-              encryptedPassword: await bcrypt.hash(request.payload.password, 10),
+              encryptedPassword: await bcrypt.hash(
+                request.payload.password,
+                10
+              ),
               password: undefined
             }
           }
@@ -39,7 +45,10 @@ export const userConfig = {
           if (request.payload.password) {
             request.payload = {
               ...request.payload,
-              encryptedPassword: await bcrypt.hash(request.payload.password, 10),
+              encryptedPassword: await bcrypt.hash(
+                request.payload.password,
+                10
+              ),
               password: undefined
             }
           }

@@ -1,4 +1,4 @@
-import Machine from '../db/Machine'
+import Machine from '../db/models/Machine'
 
 export const machineConfig = {
   resource: Machine
@@ -13,5 +13,4 @@ export const machineConfig = {
   //     }
   //   }
   // }
-
 }

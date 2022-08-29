@@ -20,7 +20,9 @@ import { routerConfig } from './admin/routerConfig'
 import testRouter from './routes/test'
 void (async () => {
   // db:
-  mongoose.connect(MONGODB, () => { console.log('connected to mongo') })
+  mongoose.connect(MONGODB, () => {
+    console.log('connected to mongo')
+  })
 
   // admin
   const adminJsOptions = {
@@ -32,7 +34,10 @@ void (async () => {
   // const adminRouter = AdminJSExpress.buildRouter(adminJs)
 
   // Build and use a router which will handle all AdminJS routes
-  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(adminJs, routerConfig)
+  const adminUsersRouter = AdminJSExpress.buildAuthenticatedRouter(
+    adminJs,
+    routerConfig
+  )
 
   // express:
   const app = express()
