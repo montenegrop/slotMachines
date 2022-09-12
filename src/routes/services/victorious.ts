@@ -4,6 +4,7 @@ import {
   roll,
   visibles,
   winningChains,
+  winningChainsFS,
   winnings
 } from '../../utils/forRolls'
 
@@ -61,7 +62,7 @@ const paymentsFreeSpin: Payments = {
   H: { 0: 0, 1: 0, 2: 0, 3: 30, 4: 200, 5: 500 },
   I: { 0: 0, 1: 0, 2: 0, 3: 50, 4: 400, 5: 1000 },
   J: { 0: 0, 1: 0, 2: 0, 3: 100, 4: 500, 5: 1500 },
-  S: { 0: 0, 1: 0, 2: 0, 3: 125, 4: 500, 5: 1250 },
+  S: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
   W: { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
 }
 const freeSpinsFreeSpin = [0, 0, 15, 20, 25]
@@ -85,7 +86,7 @@ export function freeSpinsWinnings(): any {
   const randomRoll = roll(lengthsFreeSpin)
   const reelsFreeSpinRound = reelsRound(reelsFreeSpin)
   const screenFreeSpin = visibles(reelsFreeSpinRound, randomRoll)
-  const chainsFreeSpin = winningChains(screenFreeSpin)
+  const chainsFreeSpin = winningChainsFS(screenFreeSpin)
   const winningsFreeSpin = winnings(
     chainsFreeSpin,
     paymentsFreeSpin,

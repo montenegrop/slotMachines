@@ -1,5 +1,7 @@
 import { Chains, LineWin, Payments } from '../types'
 
+const freeSpinSymbol = 'S'
+
 export function reelsRound(reels: string[], visible = 3): string[] {
   return reels.map((r) => r + r.slice(0, visible - 1))
 }
@@ -99,6 +101,87 @@ export function winningChains(
   return chains
 }
 
+export function winningChainsFS(
+  screen: string[],
+  totalReels = 5,
+  wild = 'W'
+): Chains {
+  const chains: Chains = {}
+  const v0 = screen[0]
+  let potential = new Set(v0)
+  potential.delete(freeSpinSymbol)
+
+  v0.split('').forEach((letter, i, array) => {
+    if (array.indexOf(letter) === array.lastIndexOf(letter)) {
+      chains[letter] = [v0.indexOf(letter)]
+    } else {
+      chains[letter + String(i)] = [i]
+    }
+  })
+
+  let reelIndex = 1
+  while (potential.size !== 0 && reelIndex < totalReels) {
+    const reel = screen[reelIndex]
+    let symbolPotential = new Set()
+    if (!reel.includes(wild)) {
+      potential = new Set([...potential].filter((x) => new Set(reel).has(x)))
+      symbolPotential = potential
+    } else {
+      symbolPotential = new Set(
+        [...potential].filter((x) => new Set(reel).has(x))
+      )
+    }
+    const keys = Object.keys(chains)
+    keys.forEach((key) => {
+      if (!(chains[key].length === reelIndex)) {
+        return
+      }
+      const symbol = v0[chains[key][0]]
+      if (reel.includes(wild)) {
+        if (reel.split('').indexOf(wild) === reel.split('').lastIndexOf(wild)) {
+          chains[key + wild + String(reelIndex)] = chains[key].concat([
+            reel.indexOf(wild)
+          ])
+        } else {
+          reel.split('').forEach((letter, i) => {
+            if (letter === wild) {
+              chains[key + String(i) + wild + String(reelIndex)] = chains[
+                key
+              ].concat([i])
+            }
+          })
+        }
+        if (!symbolPotential.has(symbol)) {
+          // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+          delete chains[key]
+        }
+      }
+      if (symbolPotential.has(symbol)) {
+        if (
+          reel.split('').indexOf(symbol) === reel.split('').lastIndexOf(symbol)
+        ) {
+          chains[key].push(reel.indexOf(symbol))
+        } else {
+          reel.split('').forEach((letter, i) => {
+            if (letter === symbol) {
+              chains[key + String(reelIndex) + String(i) + letter] = chains[
+                key
+              ].concat([i])
+            }
+          })
+        }
+      }
+    })
+    reelIndex += 1
+  }
+
+  const fsChain = screen.filter(reel => reel.includes(freeSpinSymbol)).map(_reel => 99)
+  if (fsChain.length > 0) {
+    chains[freeSpinSymbol] = fsChain
+  }
+  return chains
+}
+
 export function winnings(
   chains: Chains,
   payments: Payments,
@@ -126,6 +209,7 @@ export function winnings(
       })
     }
   })
+
 
   return {
     total_win: totalWin,
