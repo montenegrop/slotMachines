@@ -9,6 +9,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import rollRouter from './routes/roll'
+import zombieRouter from './routes/zombie'
 import publisherRouter from './routes/publisher'
 import userRouter from './routes/user'
 
@@ -49,6 +50,7 @@ void (async () => {
   app.use('/admin', adminUsersRouter)
   // app.use('/admin', adminRouter)
   app.use('/api', rollRouter)
+  app.use('/zombie', zombieRouter)
   app.use('/publisher', publisherRouter)
   app.use('/user', userRouter)
   app.use('/test', testRouter)

@@ -37,5 +37,5 @@ function roiEmpiric(amount: number): any {
   }
 }
 
-console.log(roiEmpiric(100000000))
+console.log(roiEmpiric(1000000))
 console.log('cont ', cont)
