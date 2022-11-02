@@ -18,12 +18,11 @@
   },
   "editor.suggest.snippetsPreventQuickSuggestions": false,
   "editor.quickSuggestionsDelay": 0,
-  "workbench.editorAssociations": [
+  "workbench.editorAssociations":
     {
       "viewType": "jupyter-notebook",
-      "filenamePattern": "*.ipynb"
-    }
-  ],
+      "filenamePattern": "default"
+    },
   "typescript.validate.enable": false,
   "prettier.configPath": ".prettierrc"
 }

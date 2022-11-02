@@ -175,7 +175,9 @@ export function winningChainsFS(
     reelIndex += 1
   }
 
-  const fsChain = screen.filter(reel => reel.includes(freeSpinSymbol)).map(_reel => 99)
+  const fsChain = screen
+    .filter((reel) => reel.includes(freeSpinSymbol))
+    .map((_reel) => 99)
   if (fsChain.length > 0) {
     chains[freeSpinSymbol] = fsChain
   }
@@ -209,7 +211,6 @@ export function winnings(
       })
     }
   })
-
 
   return {
     total_win: totalWin,
