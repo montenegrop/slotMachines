@@ -1,3 +1,9 @@
+import { Router } from "express"
+import fs from "fs"
+import { freeSpinsWinnings, normalWinnings } from "./services/victorious"
+import path from "path"
+
+
 
 const dir = path.join(__dirname, '../players')
 
@@ -17,9 +23,8 @@ fs.writeFileSync(
 
 const router = Router()
 
-const xx = 9
 
-router.get('/api', (_req, res) => {
+router.get('/api', (req, res) => {
     const file = fs.readFileSync(
         path.join(__dirname, '../players/playerApiZombie.json'),
         'utf-8'
