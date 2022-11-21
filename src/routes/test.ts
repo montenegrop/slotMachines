@@ -39,10 +39,10 @@ router.get('/details', getParameters, async (req: any, res, _next) => {
   const playerBalance =
     player?.gameBalances != null
       ? player.gameBalances?.find(
-        (gameBalance) =>
-          gameBalance?.game?.toString() === game?._id.toString() &&
-          gameBalance?.publisher?.toString() === publisher?._id.toString()
-      )
+          (gameBalance) =>
+            gameBalance?.game?.toString() === game?._id.toString() &&
+            gameBalance?.publisher?.toString() === publisher?._id.toString()
+        )
       : null
 
   // procces db data
@@ -81,10 +81,10 @@ router.get('/dbdetails', getParameters, async (req: any, res, _next) => {
   const playerBalance =
     player?.gameBalances != null
       ? player.gameBalances?.find(
-        (gameBalance) =>
-          gameBalance?.game?.toString() === game?._id.toString() &&
-          gameBalance?.publisher?.toString() === publisher?._id.toString()
-      )
+          (gameBalance) =>
+            gameBalance?.game?.toString() === game?._id.toString() &&
+            gameBalance?.publisher?.toString() === publisher?._id.toString()
+        )
       : null
   // procces db data
   // get player details from publisher
