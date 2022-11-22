@@ -33,11 +33,7 @@ router.get('/api', (req, res) => {
     userData.balance += (resultFreeSpin.total_win * 1.0) / 25
     userData.screen = resultFreeSpin.screen
     fs.writeFileSync(
-      path.join(__dirname, '../players/player2.json'),
-      JSON.stringify(userData)
-    )
-    fs.writeFileSync(
-      path.join(__dirname, '../players/player2.json'),
+      path.join(__dirname, '../players/playerApiZombie.json'),
       JSON.stringify(userData)
     )
     res.status(200).json({
@@ -56,12 +52,14 @@ router.get('/api', (req, res) => {
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.balance +=
       (resultNormal.total_win * 1.0) / 25 - parseInt(req.query.bet as string)
+
+    console.log(resultNormal.total_win, 'tot win')
     // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
     userData.free_spins += resultNormal.free_spins
     userData.screen = resultNormal.screen
 
     fs.writeFileSync(
-      path.join(__dirname, '../players/player2.json'),
+      path.join(__dirname, '../players/playerApiZombie.json'),
       JSON.stringify(userData)
     )
     res.status(200).json({

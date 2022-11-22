@@ -175,12 +175,13 @@ export function winningChainsFS(
     reelIndex += 1
   }
 
-  const fsChain = screen
-    .filter((reel) => reel.includes(freeSpinSymbol))
-    .map((_reel) => 99)
-  if (fsChain.length > 0) {
+  const fsChain = screen.map((reel) =>
+    reel.includes(freeSpinSymbol) ? reel.indexOf(freeSpinSymbol) : -1
+  )
+  if (fsChain.filter((x) => x == -1).length < 3) {
     chains[freeSpinSymbol] = fsChain
   }
+
   return chains
 }
 
@@ -199,7 +200,7 @@ export function winnings(
     const win = payments[key[0]][chain.length]
 
     if (key[0] === freeSpin) {
-      freeSpins += freeSpinList[chains[key].length - 1]
+      freeSpins += freeSpinList[chains[key].filter((x) => x !== -1).length - 1]
     }
 
     if (win > 0) {
