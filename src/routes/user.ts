@@ -3,6 +3,7 @@ import { parseString } from 'xml2js'
 
 import { casino1 } from './publisher'
 import Player from '../db/models/Player'
+import { findOrCreatePlayer } from '../db/queries/findOrCreate'
 
 const router = Router()
 
@@ -31,6 +32,14 @@ router.get('/details', async (req, res) => {
   const player = await Player.findOne({ username: user })
   details.player = player?.gameBalances[0]
   res.status(200).json(details)
+})
+
+router.get('/newUser', async (req, res) => {
+  console.log(req.query.username)
+  const user = req.query.username
+  const usuario = await findOrCreatePlayer(user as string)
+
+  res.status(200).json(usuario)
 })
 
 export default router

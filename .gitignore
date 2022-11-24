@@ -1,4 +1,6 @@
 **/node_modules
 preguntas.md
 .env
-src/players/player2.json
+/dist
+src/players/playerApiZombie.json
+dist/
