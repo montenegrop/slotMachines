@@ -13,14 +13,14 @@ function roiEmpiric(amount) {
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
                 userData.free_spins += resultFreeSpin.free_spins - 1;
                 // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-                userData.balance += resultFreeSpin.total_win * 3.0 / 25;
+                userData.balance += (resultFreeSpin.total_win * 3.0) / 25;
                 cont += 1;
             }
         }
         else {
             const resultNormal = (0, victorious_1.normalWinnings)();
             // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-            userData.balance += resultNormal.total_win * 1.0 / 25 - 1.0;
+            userData.balance += (resultNormal.total_win * 1.0) / 25 - 1.0;
             userData.free_spins = resultNormal.free_spins;
             cont += 1;
             index += 1;
@@ -31,8 +31,8 @@ function roiEmpiric(amount) {
         balance: userData.balance,
         amount: amount,
         expected_balance: initial - amount * (1 - 0.9688),
-        calculated_roi: ((userData.balance - initial) * 1.0 / amount) + 1
+        calculated_roi: ((userData.balance - initial) * 1.0) / amount + 1
     };
 }
-console.log(roiEmpiric(10000000));
+console.log(roiEmpiric(1000000));
 console.log('cont ', cont);

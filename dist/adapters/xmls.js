@@ -1,7 +1,7 @@
 "use strict";
 // <?xml version="1.0"?>
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.accountBalanceXML = exports.accountDetailsXML = void 0;
+exports.placeBetXML = exports.accountBalanceXML = exports.accountDetailsXML = void 0;
 const accountDetailsXML = (token, publisher) => {
     const string = `
   <PKT>
@@ -20,9 +20,9 @@ const accountBalanceXML = (token, publisher) => {
     const string = `
     <PKT>
         <Method Name="GetAccountBalance">
-            <Auth Login=${publisher.login} Password=${publisher.password}>
+            <Auth Login="${publisher.login}" Password="${publisher.password}">
             <Paramas>
-                <Token  Type="string" Value=${token} />
+                <Token  Type="string" Value="${token}" />
             </Params>
             </Auth>   
         <Method>
@@ -31,3 +31,21 @@ const accountBalanceXML = (token, publisher) => {
     return string;
 };
 exports.accountBalanceXML = accountBalanceXML;
+const placeBetXML = (token, bet, publisher, transactionID, betReferenceNum, gameReference) => {
+    const string = `
+    <PKT>
+      <Method Name="PlaceBet">
+      <Auth Login="${publisher.login}" Password="${publisher.password}" />
+        <Params>
+          <Token Type="string" Value="${token}" />
+          <TransactionID Type="string" Value="${transactionID}" />
+          <BetReferenceNum Type="long" Value="${betReferenceNum}" />
+          <BetAmount Type="int" Value="${bet}" />
+          <GameReference Type="string" Value="${gameReference}" />
+        </Params>
+      </Method>
+    </PKT>
+    `;
+    return string;
+};
+exports.placeBetXML = placeBetXML;
